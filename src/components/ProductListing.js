@@ -10,6 +10,7 @@ const data = useStaticQuery(graphql`
           New_Name
           Description
           Category
+          Image
           Active
           Total
           XS_Price
