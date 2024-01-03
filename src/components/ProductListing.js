@@ -2,26 +2,38 @@ import React from "react"
 import { useStaticQuery, graphql } from "gatsby"
 
 const data = useStaticQuery(graphql`
-  query {
+  query MyQuery {
     allInventoryJson {
       edges {
         node {
-          Original_Name
-          New_Name
+          OriginalName
+          NewName
           Description
           Category
-          Image
+          Image {
+            publicURL
+          }
           Active
+          OneSize
+          XsInv
+          SmInv
+          MdInv
+          LgInv
+          XlInv
+          _2xInv
+          _3xInv
+          _4xInv
+          _6xInv
           Total
-          XS_Price
-          SM_Price
-          MD_Price
-          LG_Price
-          XL_Price
-          _2X_Price
-          _3X_Price
-          _4X_Price
-          _6X_Price
+          XsPrice
+          SmPrice
+          MdPrice
+          LgPrice
+          XlPrice
+          _2xPrice
+          _3xPrice
+          _4xPrice
+          _6xPrice
         }
       }
     }
@@ -29,16 +41,16 @@ const data = useStaticQuery(graphql`
 `)
 
 const ProductListing = () => {
-    const products = data.allInventoryJson.edges;
+  const products = data.allInventoryJson.edges
 
-    return (
-        <div>
-            {products.map(({ node }) => (
-                <div key={node.Original_Name}>
-                    <h2>{node.Original_Name}</h2>
-                    <p>{node.Description}</p>
-                </div>
-            ))}
+  return (
+    <div>
+      {products.map(({ node }) => (
+        <div key={node.Original_Name}>
+          <h2>{node.Original_Name}</h2>
+          <p>{node.Description}</p>
         </div>
-    )
+      ))}
+    </div>
+  )
 }
