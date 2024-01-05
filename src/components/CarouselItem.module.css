@@ -1,0 +1,19 @@
+/* basic styling for image carousel. not sure how the styling from react-slick will interact with this
+module, so leaving some stand-in classnames commented out in case needed later. */
+
+/* .carouselItem {
+
+} */
+
+.productImage {
+    width: 100%;
+    height: auto;
+}
+
+/* .productName {
+
+} */
+
+/* .productDescription {
+
+} */

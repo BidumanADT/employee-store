@@ -2,51 +2,51 @@ import React from "react"
 import { useStaticQuery, graphql } from "gatsby"
 import styles from "./ProductListing.module.css"
 
-// pull all data from GraphQL backend
-const data = useStaticQuery(graphql`
-  query MyQuery {
-    allInventoryJson {
-      edges {
-        node {
-          id
-          OriginalName
-          NewName
-          Description
-          Category
-          Image {
-            publicURL
+// conditional rendering for a listing of all products
+const ProductListing = () => {
+  // pull all data from GraphQL backend
+  const data = useStaticQuery(graphql`
+    query ProductListingQuery {
+      allInventoryJson {
+        edges {
+          node {
+            id
+            OriginalName
+            NewName
+            Description
+            Category
+            Image {
+              publicURL
+            }
+            Active
+            OneSize
+            _1SizeInv
+            XsInv
+            SmInv
+            MdInv
+            LgInv
+            XlInv
+            _2xInv
+            _3xInv
+            _4xInv
+            _6xInv
+            Total
+            _1SizePrice
+            XsPrice
+            SmPrice
+            MdPrice
+            LgPrice
+            XlPrice
+            _2xPrice
+            _3xPrice
+            _4xPrice
+            _6xPrice
           }
-          Active
-          OneSize
-          _1SizeInv
-          XsInv
-          SmInv
-          MdInv
-          LgInv
-          XlInv
-          _2xInv
-          _3xInv
-          _4xInv
-          _6xInv
-          Total
-          _1SizePrice
-          XsPrice
-          SmPrice
-          MdPrice
-          LgPrice
-          XlPrice
-          _2xPrice
-          _3xPrice
-          _4xPrice
-          _6xPrice
         }
       }
     }
-  }
-`)
+  `)
 
-// conditional rendering for a listing of all products
-const ProductListing = () => {
   const products = data.allInventoryJson.edges
 
   // mapping for sizes and prices of non-1-size items
@@ -114,8 +114,8 @@ const ProductListing = () => {
           {node.OneSize ? (
             <>
               <img
-                src={node.Image?.publicURL || './data/images/default.jpeg'}
-                alt={node.OriginalName || 'Default Image'}
+                src={node.Image?.publicURL || "./data/images/default.jpeg"}
+                alt={node.OriginalName || "Default Image"}
                 className={styles.productImage}
               />
               <br />
@@ -148,3 +148,5 @@ const ProductListing = () => {
     </div>
   )
 }
+
+export default ProductListing
