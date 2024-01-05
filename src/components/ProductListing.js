@@ -1,5 +1,6 @@
 import React from "react"
 import { useStaticQuery, graphql } from "gatsby"
+import styles from "./ProductListing.module.css"
 
 // pull all data from GraphQL backend
 const data = useStaticQuery(graphql`
@@ -63,15 +64,15 @@ const ProductListing = () => {
       "_6xInv",
     ]
     const sizeDisplayNames = {
-      "XsInv": "X-Small",
-      "SmInv": "Small",
-      "MdInv": "Medium",
-      "LgInv": "Large",
-      "XlInv": "X-Large",
-      "_2xInv": "2X-Large",
-      "_3xInv": "3X-Large",
-      "_4xInv": "4X-Large",
-      "_6xInv": "6X-Large",
+      XsInv: "X-Small",
+      SmInv: "Small",
+      MdInv: "Medium",
+      LgInv: "Large",
+      XlInv: "X-Large",
+      _2xInv: "2X-Large",
+      _3xInv: "3X-Large",
+      _4xInv: "4X-Large",
+      _6xInv: "6X-Large",
     }
     const priceKeys = [
       "XsPrice",
@@ -106,15 +107,21 @@ const ProductListing = () => {
   return (
     <div>
       {products.map(({ node }) => (
-        <div key={node.id}>
-          <h2>{node.NewName ? node.NewName : node.OriginalName}</h2>
+        <div key={node.id} className={styles.productCard}>
+          <h2 className={styles.productName}>
+            {node.NewName ? node.NewName : node.OriginalName}
+          </h2>
           {node.OneSize ? (
             <>
-              <img src={node.Image.publicURL} />
+              <img
+                src={node.Image?.publicURL || './data/images/default.jpeg'}
+                alt={node.OriginalName || 'Default Image'}
+                className={styles.productImage}
+              />
               <br />
               <p>{node.Category}</p>
               <br />
-              <p>{node.Description}</p>
+              <p className={styles.productDescription}>{node.Description}</p>
               <br />
               <p>Number Available: {node._1SizeInv}</p>
               <br />
@@ -123,11 +130,15 @@ const ProductListing = () => {
             </>
           ) : (
             <>
-              <img src={node.Image.publicURL} />
+              <img
+                src={node.Image.publicURL}
+                alt={node.OriginalName}
+                className={styles.productImage}
+              />
               <br />
               <p>{node.Category}</p>
               <br />
-              <p>{node.Description}</p>
+              <p className={styles.productDescription}>{node.Description}</p>
               <br />
               {renderSizes(node)}
             </>
