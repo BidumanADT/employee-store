@@ -29,6 +29,7 @@ const CarouselItem = () => {
           <img
             src={node.Image.publicURL}
             alt={node.NewName ? node.NewName : node.OriginalName}
+            className={styles.productImage}
           />
           <h2>
             {node.NewName ? node.NewName : node.OriginalName}
