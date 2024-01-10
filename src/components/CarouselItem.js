@@ -1,6 +1,6 @@
 import React from "react"
 import { useStaticQuery, graphql } from "gatsby"
-import styles from "./CarouselItem.module.css"
+import "./CarouselItem.module.css"
 
 const CarouselItem = () => {
   const data = useStaticQuery(graphql`
@@ -29,7 +29,7 @@ const CarouselItem = () => {
           <img
             src={node.Image.publicURL}
             alt={node.NewName ? node.NewName : node.OriginalName}
-            className={styles.productImage}
+            className="productImage"
           />
           <h2>
             {node.NewName ? node.NewName : node.OriginalName}

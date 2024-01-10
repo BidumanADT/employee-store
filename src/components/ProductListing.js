@@ -1,6 +1,6 @@
 import React from "react"
 import { useStaticQuery, graphql } from "gatsby"
-import styles from "./ProductListing.module.css"
+import "./ProductListing.module.css"
 
 // conditional rendering for a listing of all products
 const ProductListing = () => {
@@ -107,8 +107,8 @@ const ProductListing = () => {
   return (
     <div>
       {products.map(({ node }) => (
-        <div key={node.id} className={styles.productCard}>
-          <h2 className={styles.productName}>
+        <div key={node.id} className="productCard">
+          <h2 className="productName">
             {node.NewName ? node.NewName : node.OriginalName}
           </h2>
           {node.OneSize ? (
@@ -116,12 +116,12 @@ const ProductListing = () => {
               <img
                 src={node.Image?.publicURL || "./data/images/default.jpeg"}
                 alt={node.OriginalName || "Default Image"}
-                className={styles.productImage}
+                className="productImage"
               />
               <br />
               <p>{node.Category}</p>
               <br />
-              <p className={styles.productDescription}>{node.Description}</p>
+              <p className="productDescription">{node.Description}</p>
               <br />
               <p>Number Available: {node._1SizeInv}</p>
               <br />
@@ -133,12 +133,12 @@ const ProductListing = () => {
               <img
                 src={node.Image.publicURL}
                 alt={node.OriginalName}
-                className={styles.productImage}
+                className="productImage"
               />
               <br />
               <p>{node.Category}</p>
               <br />
-              <p className={styles.productDescription}>{node.Description}</p>
+              <p className="productDescription">{node.Description}</p>
               <br />
               {renderSizes(node)}
             </>
