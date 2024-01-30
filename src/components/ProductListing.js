@@ -1,6 +1,9 @@
 import React from "react"
 import { useStaticQuery, graphql } from "gatsby"
-import "./ProductListing.module.css"
+// import "./ProductListing.module.css"
+import Card from 'react-bootstrap/Card'
+import { Container, Row, Col } from "react-bootstrap"
+import ListGroup from "react-bootstrap/ListGroup"
 
 // conditional rendering for a listing of all products
 const ProductListing = () => {
@@ -106,46 +109,38 @@ const ProductListing = () => {
 
   return (
     <div>
-      {products.map(({ node }) => (
-        <div key={node.id} className="productCard">
-          <h2 className="productName">
-            {node.NewName ? node.NewName : node.OriginalName}
-          </h2>
-          {node.OneSize ? (
-            <>
-              <img
-                src={node.Image?.publicURL || "./data/images/default.jpeg"}
-                alt={node.OriginalName || "Default Image"}
-                className="productImage"
-              />
-              <br />
-              <p>{node.Category}</p>
-              <br />
-              <p className="productDescription">{node.Description}</p>
-              <br />
-              <p>Number Available: {node._1SizeInv}</p>
-              <br />
-              <p>Price: {node._1SizePrice}</p>
-              <br />
-            </>
-          ) : (
-            <>
-              <img
-                src={node.Image.publicURL}
-                alt={node.OriginalName}
-                className="productImage"
-              />
-              <br />
-              <p>{node.Category}</p>
-              <br />
-              <p className="productDescription">{node.Description}</p>
-              <br />
-              {renderSizes(node)}
-            </>
-          )}
-        </div>
-      ))}
-    </div>
+    <Container>
+      <Row>
+    {products.map(({ node }) => (
+      <Col xs={12} sm={6} md={4} lg={3} key={node.id}>
+      <Card key={node.id} style={{ width: '18rem', margin: '10px' }}>
+        <Card.Img variant="top" src={node.Image?.publicURL || "./data/images/default.jpeg"} alt={node.OriginalName || "Default Image"} />
+        <Card.Body>
+          <Card.Title>{node.NewName ? node.NewName : node.OriginalName}</Card.Title>
+          <Card.Text>
+            {node.Description}
+          </Card.Text>
+        </Card.Body>
+        <ListGroup className="list-group-flush">
+          <ListGroup.Item>{node.OneSize ? "One Size Fits Most" : "Multiple Sizes Available"}</ListGroup.Item>
+          {/* Additional ListGroup items can be added here */}
+        </ListGroup>
+        <Card.Body>
+          <Card.Text>
+            Category: {node.Category}
+          </Card.Text>
+          <Card.Text>
+            Price: {node.OneSize ? `$${node._1SizePrice}` : "See available sizes"}
+          </Card.Text>
+          {/* Conditional rendering of sizes and prices for non-1-size items */}
+          {!node.OneSize && renderSizes(node)}
+        </Card.Body>
+      </Card>
+      </Col>
+    ))}
+    </Row>
+    </Container>
+  </div>
   )
 }
 
