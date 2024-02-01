@@ -4,6 +4,7 @@ import { useStaticQuery, graphql } from "gatsby"
 import Card from "react-bootstrap/Card"
 import { Container, Row, Col } from "react-bootstrap"
 import ListGroup from "react-bootstrap/ListGroup"
+// import styles from "./ProductListing.module.css"
 
 // conditional rendering for a listing of all products
 const ProductListing = () => {
@@ -34,6 +35,15 @@ const ProductListing = () => {
             _6xInv
             Total
             _1SizePrice
+            XsPrice
+            SmPrice
+            MdPrice
+            LgPrice
+            XlPrice
+            _2xPrice
+            _3xPrice
+            _4xPrice
+            _6xPrice
           }
         }
       }
@@ -53,14 +63,15 @@ const ProductListing = () => {
                   variant="top"
                   src={node.Image?.publicURL || "./data/images/default.jpeg"}
                   alt={node.OriginalName || "Default Image"}
+                  style={{ width: '100%', height: '200px', objectFit: 'cover' }}
                 />
                 <Card.Body>
                   <Card.Title>
                     {node.NewName ? node.NewName : node.OriginalName}
                   </Card.Title>
                   <Card.Text>
-                    {node.Description.substring(0, 20)}
-                    {node.Description.length > 20 ? "..." : ""}
+                    {node.Description && node.Description.substring(0, 100)}
+                    {node.Description && node.Description.length > 100 ? "..." : ""}
                   </Card.Text>
                 </Card.Body>
                 <ListGroup className="list-group-flush">

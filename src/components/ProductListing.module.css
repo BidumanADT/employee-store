@@ -1,31 +1,5 @@
-.productCard {
-    border: 1px solid #ccc;
-    padding: 16px;
-    margin: 16px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.productImage {
+.cardImage {
     width: 100%;
-    height: auto;
-    max-width: 300px;
-    display: block;
-    margin: 0 auto;
-    border-radius: 4px;
-}
-
-.productName {
-    font-size: 1.2em;
-    margin-top: 8px;
-}
-
-.productDescription {
-    color: #666;
-    font-size: 0.9em;
-}
-
-.productPrice {
-    color: #333;
-    font-weight: bold;
+    height: 200px;
+    object-fit: cover;
 }
