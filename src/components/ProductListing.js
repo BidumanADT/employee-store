@@ -58,20 +58,24 @@ const ProductListing = () => {
         <Row>
           {products.map(({ node }) => (
             <Col xs={12} sm={6} md={4} lg={3} key={node.id}>
-              <Card key={node.id} style={{ width: "18rem", margin: "10px" }}>
+              <Card style={{ width: "18rem", margin: "10px" }}>
                 <Card.Img
                   variant="top"
                   src={node.Image?.publicURL || "./data/images/default.jpeg"}
                   alt={node.OriginalName || "Default Image"}
-                  style={{ width: '100%', height: '200px', objectFit: 'cover' }}
+                  style={{ height: "200px", objectFit: "cover" }} // Ensures images are the same size
                 />
-                <Card.Body>
+                <Card.Body style={{ minHeight: "210px" }}>
+                  {" "}
+                  {/* Adjust minHeight as needed */}
                   <Card.Title>
                     {node.NewName ? node.NewName : node.OriginalName}
                   </Card.Title>
                   <Card.Text>
                     {node.Description && node.Description.substring(0, 100)}
-                    {node.Description && node.Description.length > 100 ? "..." : ""}
+                    {node.Description && node.Description.length > 100
+                      ? "..."
+                      : ""}
                   </Card.Text>
                 </Card.Body>
                 <ListGroup className="list-group-flush">
@@ -80,14 +84,10 @@ const ProductListing = () => {
                       ? "One Size Fits Most"
                       : "Multiple Sizes Available"}
                   </ListGroup.Item>
-                  {/* Additional ListGroup items can be added here */}
+                  <ListGroup.Item>Price: {node.OneSize ? `$${node._1SizePrice}` : "Varies"}</ListGroup.Item>
                 </ListGroup>
                 <Card.Body>
-                  <Card.Text>Category: {node.Category}</Card.Text>
-                  <Card.Text>
-                    Price: {node.OneSize ? `$${node._1SizePrice}` : "Varies"}
-                  </Card.Text>
-                  {/* Conditional rendering of sizes and prices for non-1-size items */}
+                <Card.Link href="#">Details (FIP)</Card.Link>
                 </Card.Body>
               </Card>
             </Col>
