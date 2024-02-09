@@ -1,13 +1,17 @@
-import React from "react"
+import React, { useState } from "react"
 import { useStaticQuery, graphql } from "gatsby"
 // import "./ProductListing.module.css"
 import Card from "react-bootstrap/Card"
 import { Container, Row, Col } from "react-bootstrap"
 import ListGroup from "react-bootstrap/ListGroup"
 // import styles from "./ProductListing.module.css"
+import ProductDetail from './ProductDetail';
 
 // conditional rendering for a listing of all products
 const ProductListing = () => {
+  const [showDetail, setShowDetail] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
   // pull all data from GraphQL backend
   const data = useStaticQuery(graphql`
     query ProductListingQuery {
@@ -52,6 +56,12 @@ const ProductListing = () => {
 
   const products = data.allInventoryJson.edges
 
+  const handleShowDetail = (product, event) => {
+    event.preventDefault(); // Prevent the default anchor behavior
+    setSelectedProduct(product); // Set the selected product for the modal
+    setShowDetail(true); // Show the modal
+  };
+
   return (
     <div>
       <Container>
@@ -87,13 +97,19 @@ const ProductListing = () => {
                   <ListGroup.Item>Price: {node.OneSize ? `$${node._1SizePrice}` : "Varies"}</ListGroup.Item>
                 </ListGroup>
                 <Card.Body>
-                <Card.Link href="#">Details (FIP)</Card.Link>
+                <Card.Link href="#" onClick={(e) => handleShowDetail(node, e)}>Details (FIP)</Card.Link>
                 </Card.Body>
               </Card>
             </Col>
           ))}
         </Row>
       </Container>
+      {/* Product Detail Modal */}
+      <ProductDetail
+        product={selectedProduct}
+        show={showDetail}
+        onHide={() => setShowDetail(false)}
+      />
     </div>
   )
 }
