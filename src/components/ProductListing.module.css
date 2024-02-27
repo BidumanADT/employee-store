@@ -48,7 +48,7 @@
   }
   
   /* Styling for the apply button */
-  .apply-button {
+  .applyButton {
     background-color: #007bff; /* Blue background */
     color: #ffffff; /* White text */
     border: none; /* Remove border */
@@ -59,9 +59,26 @@
     display: block; /* Block display to fit width */
     margin-top: 20px; /* Space above the button */
   }
-  
-  .apply-button:hover {
+
+  .applyButton:hover {
     background-color: #0056b3; /* Darker blue on hover */
+  }
+
+  /* Styling for the clear button */
+  .clearButton {
+    background-color: #dc3545; /* Red background */
+    color: #ffffff;
+    border: none; /* Remove border */
+    padding: 10px 20px; /* Padding inside the button */
+    font-size: 1em; /* Button text size */
+    cursor: pointer; /* Pointer cursor on hover */
+    border-radius: 5px; /* Rounded corners */
+    display: block; /* Block display to fit width */
+    margin-top: 20px; /* Space above the button */
+  }
+
+  .clearButton:hover {
+    background-color: #c82333; /* Darker red background */
   }
   
   /* Responsive adjustments */

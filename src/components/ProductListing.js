@@ -7,7 +7,6 @@ import ListGroup from "react-bootstrap/ListGroup"
 import * as styles from "./ProductListing.module.css"
 import ProductDetail from "./ProductDetail"
 
-
 // conditional rendering for a listing of all products
 const ProductListing = () => {
   const [showDetail, setShowDetail] = useState(false)
@@ -95,6 +94,11 @@ const ProductListing = () => {
     setShowDetail(true) // Show the modal
   }
 
+  const clearFilters = () => {
+    setSelectedCategories([])
+    setFilteredProducts(data.allInventoryJson.edges)
+  }
+
   return (
     <div className={styles.mainContent}>
       <div className={styles.filterSidebar}>
@@ -109,10 +113,17 @@ const ProductListing = () => {
               className={styles.filterCheckbox}
               onChange={e => handleCategoryChange(category, e.target.checked)}
             />
-            <label htmlFor={category} className={styles.filterLabel}>{category}</label>
+            <label htmlFor={category} className={styles.filterLabel}>
+              {category}
+            </label>
           </div>
         ))}
-        <button className={styles.applyButton} onClick={() => applyFilters()}>Apply Filters</button>
+        <button className={styles.applyButton} onClick={() => applyFilters()}>
+          Apply Filters
+        </button>
+        <button className={styles.clearButton} onClick={clearFilters}>
+          Clear All
+        </button>
       </div>
       <Container className={styles.productContainer}>
         <Row>
