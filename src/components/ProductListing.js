@@ -14,6 +14,7 @@ const ProductListing = () => {
   const [categories, setCategories] = useState([])
   const [selectedCategories, setSelectedCategories] = useState([])
   const [filteredProducts, setFilteredProducts] = useState([])
+  const [categoryCounts, setCategoryCounts] = useState({})
 
   // pull all data from GraphQL backend
   const data = useStaticQuery(graphql`
@@ -60,15 +61,27 @@ const ProductListing = () => {
 
   const products = data.allInventoryJson.edges
 
+  // useEffect to filter product listing by category
   useEffect(() => {
     const fetchedCategories = new Set()
+    const categoryCounts = {}
+
     data.allInventoryJson.edges.forEach(({ node }) => {
       fetchedCategories.add(node.Category)
+      // Init or increemnt count for this category
+      if (categoryCounts[node.Category]) {
+        categoryCounts[node.Category]++
+      } else {
+        categoryCounts[node.Category] = 1
+      }
     })
+
     setCategories([...fetchedCategories])
     setFilteredProducts(data.allInventoryJson.edges)
+    setCategoryCounts(categoryCounts)
   }, [data])
 
+  // Function to track which categories are selected in the filter products sidebar
   const handleCategoryChange = (category, isChecked) => {
     if (isChecked) {
       setSelectedCategories([...selectedCategories, category])
@@ -77,6 +90,7 @@ const ProductListing = () => {
     }
   }
 
+  // Function to apply filters to product listing
   const applyFilters = () => {
     if (selectedCategories.length === 0) {
       setFilteredProducts(data.allInventoryJson.edges)
@@ -88,16 +102,17 @@ const ProductListing = () => {
     }
   }
 
-  const handleShowDetail = (product, event) => {
-    event.preventDefault() // Prevent the default anchor behavior
-    setSelectedProduct(product) // Set the selected product for the modal
-    setShowDetail(true) // Show the modal
-  }
-
   // Function to handle clearing all filters
   const clearFilters = () => {
     setSelectedCategories([]) // Clear selected categories
     setFilteredProducts(data.allInventoryJson.edges) // Reset to show all products
+  }
+
+  // Funcion to handle launching of the product detail modal
+  const handleShowDetail = (product, event) => {
+    event.preventDefault() // Prevent the default anchor behavior
+    setSelectedProduct(product) // Set the selected product for the modal
+    setShowDetail(true) // Show the modal
   }
 
   return (
@@ -116,7 +131,7 @@ const ProductListing = () => {
               checked={selectedCategories.includes(category)}
             />
             <label htmlFor={category} className={styles.filterLabel}>
-              {category}
+              {category} ({categoryCounts[category] || 0})
             </label>
           </div>
         ))}
