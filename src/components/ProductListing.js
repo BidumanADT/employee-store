@@ -173,7 +173,13 @@ const ProductListing = () => {
                       : "Multiple Sizes Available"}
                   </ListGroup.Item>
                   <ListGroup.Item>
-                    Price: {node.OneSize ? `$${node._1SizePrice}` : "Varies"}
+                    Price:{" "}
+                    {node.OneSize
+                      ? `${new Intl.NumberFormat("en-US", {
+                          style: "currency",
+                          currency: "USD",
+                        }).format(node._1SizePrice)}`
+                      : "Varies"}
                   </ListGroup.Item>
                 </ListGroup>
                 <Card.Body>
