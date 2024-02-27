@@ -94,9 +94,10 @@ const ProductListing = () => {
     setShowDetail(true) // Show the modal
   }
 
+  // Function to handle clearing all filters
   const clearFilters = () => {
-    setSelectedCategories([])
-    setFilteredProducts(data.allInventoryJson.edges)
+    setSelectedCategories([]) // Clear selected categories
+    setFilteredProducts(data.allInventoryJson.edges) // Reset to show all products
   }
 
   return (
@@ -112,6 +113,7 @@ const ProductListing = () => {
               value={category}
               className={styles.filterCheckbox}
               onChange={e => handleCategoryChange(category, e.target.checked)}
+              checked={selectedCategories.includes(category)}
             />
             <label htmlFor={category} className={styles.filterLabel}>
               {category}
@@ -161,7 +163,7 @@ const ProductListing = () => {
                 </ListGroup>
                 <Card.Body>
                   <Card.Link href="#" onClick={e => handleShowDetail(node, e)}>
-                    Details (FIP)
+                    Show Details
                   </Card.Link>
                 </Card.Body>
               </Card>
