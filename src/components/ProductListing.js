@@ -4,7 +4,7 @@ import { useStaticQuery, graphql } from "gatsby"
 import Card from "react-bootstrap/Card"
 import { Container, Row, Col } from "react-bootstrap"
 import ListGroup from "react-bootstrap/ListGroup"
-// import styles from "./ProductListing.module.css"
+import * as styles from "./ProductListing.module.css"
 import ProductDetail from "./ProductDetail"
 
 
@@ -96,24 +96,25 @@ const ProductListing = () => {
   }
 
   return (
-    <div>
-      <div className="filter-options">
-        <h5>Category</h5>
+    <div className={styles.mainContent}>
+      <div className={styles.filterSidebar}>
+        <h5 className={styles.filterHeader}>Category</h5>
         {categories.map(category => (
-          <div key={category}>
+          <div key={category} className={styles.filterOption}>
             <input
               type="checkbox"
               id={category}
               name={category}
               value={category}
+              className={styles.filterCheckbox}
               onChange={e => handleCategoryChange(category, e.target.checked)}
             />
-            <label htmlFor={category}>{category}</label>
+            <label htmlFor={category} className={styles.filterLabel}>{category}</label>
           </div>
         ))}
-        <button onClick={() => applyFilters()}>Apply Filters</button>
+        <button className={styles.applyButton} onClick={() => applyFilters()}>Apply Filters</button>
       </div>
-      <Container>
+      <Container className={styles.productContainer}>
         <Row>
           {filteredProducts.map(({ node }) => (
             <Col xs={12} sm={6} md={4} lg={3} key={node.id}>

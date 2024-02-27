@@ -1,5 +1,74 @@
-.cardImage {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
+/* Primary container to be two columns (sidebar and listing) */
+.mainContent {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
 }
+
+/* Container for product listing */
+.productContainer {
+  flex-grow: 1;
+}
+
+/* Container for the filter sidebar */
+.filter-sidebar {
+    background-color: #f7f7f7; /* Light grey background */
+    padding: 20px; /* Padding around the content */
+    width: 250px; /* Fixed width for the sidebar */
+    min-height: 100vh; /* Full height */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  }
+  
+  /* Styling for the filter category headers */
+  .filter-header {
+    font-size: 1.2em; /* Larger font size */
+    color: #333; /* Dark grey color */
+    margin-bottom: 15px; /* Space below the header */
+    border-bottom: 2px solid #eee; /* Light grey bottom border */
+    padding-bottom: 5px; /* Space between text and border */
+  }
+  
+  /* Styling for each filter option */
+  .filter-option {
+    display: flex;
+    align-items: center; /* Align checkbox and label */
+    margin-bottom: 10px; /* Space between options */
+  }
+  
+  /* Custom styling for checkboxes */
+  .filter-checkbox {
+    accent-color: #007bff; /* Custom checkbox color */
+    margin-right: 10px; /* Space between checkbox and label */
+  }
+  
+  /* Styling for the filter option labels */
+  .filter-label {
+    font-size: 0.9em; /* Slightly smaller font size */
+    color: #555; /* Medium grey color */
+  }
+  
+  /* Styling for the apply button */
+  .apply-button {
+    background-color: #007bff; /* Blue background */
+    color: #ffffff; /* White text */
+    border: none; /* Remove border */
+    padding: 10px 20px; /* Padding inside the button */
+    font-size: 1em; /* Button text size */
+    cursor: pointer; /* Pointer cursor on hover */
+    border-radius: 5px; /* Rounded corners */
+    display: block; /* Block display to fit width */
+    margin-top: 20px; /* Space above the button */
+  }
+  
+  .apply-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .filter-sidebar {
+      width: 100%; /* Full width on smaller screens */
+      min-height: auto; /* Auto height */
+      box-shadow: none; /* Remove shadow */
+    }
+  }
