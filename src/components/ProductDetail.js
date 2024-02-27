@@ -2,14 +2,21 @@ import React from "react";
 import { Modal, Button, ListGroup, Container, Row, Col } from 'react-bootstrap';
 
 const ProductDetail = ({ product, show, onHide }) => {
-  // Function to format and display sizes and prices
+  // Functions to format and display sizes and prices
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    }).format(amount)
+  }
+
   const renderSizes = (product) => {
     if (!product) return null; // Ensure product data is available
 
     if (product.OneSize) {
       // Display for one-size products
       return (
-        <ListGroup.Item>Price: ${product._1SizePrice}</ListGroup.Item>
+        <ListGroup.Item>Price: {formatCurrency(product._1SizePrice)}</ListGroup.Item>
       );
     } else {
       // Display for products with multiple sizes
@@ -25,7 +32,7 @@ const ProductDetail = ({ product, show, onHide }) => {
           const sizeFormat = size.replace('_', '').toUpperCase();
           return (
             <ListGroup.Item key={size}>
-              Size {sizeFormat}: {inventoryCount} available | ${price} each
+              Size {sizeFormat}: {inventoryCount} available | {formatCurrency(price)} each
             </ListGroup.Item>
           );
         }
