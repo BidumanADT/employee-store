@@ -15,6 +15,8 @@ const ProductListing = () => {
   const [selectedCategories, setSelectedCategories] = useState([])
   const [filteredProducts, setFilteredProducts] = useState([])
   const [categoryCounts, setCategoryCounts] = useState({})
+  const [sizes, setSizes] = useState([])
+  const [selectedSizes, setSelectedSizes] = useState([])
 
   // pull all data from GraphQL backend
   const data = useStaticQuery(graphql`
@@ -60,23 +62,32 @@ const ProductListing = () => {
   `)
 
   const products = data.allInventoryJson.edges
+  const sizeOrder = ["XS", "SM", "MD", "LG", "XL", "2X", "3X", "4X", "6X"]
 
   // useEffect to filter product listing by category
   useEffect(() => {
     const fetchedCategories = new Set()
+    const fetchedSizes = new Set()
     const categoryCounts = {}
 
     data.allInventoryJson.edges.forEach(({ node }) => {
       fetchedCategories.add(node.Category)
-      // Init or increemnt count for this category
-      if (categoryCounts[node.Category]) {
-        categoryCounts[node.Category]++
-      } else {
-        categoryCounts[node.Category] = 1
-      }
+
+      // Iterate over size keys
+      const sizeKeys = ["XsInv", "SmInv", "MdInv", "LgInv", "XlInv", "_2xInv", "_3xInv", "_4xInv", "_6xInv"];
+      sizeKeys.forEach(sizeKey => {
+        if (node[sizeKey] > 0) {
+          const displaySize = sizeKey.replace("Inv", "").replace('_', "").toUpperCase(); // Ensure correct format
+          fetchedSizes.add(displaySize);
+        }
+      });
+
+      // Init or increment count for this category
+      categoryCounts[node.Category] = (categoryCounts[node.Category] || 0) + 1
     })
 
     setCategories([...fetchedCategories])
+    setSizes(sizeOrder.filter(s => fetchedSizes.has(s))); // Ensure sizes are set in the correct order
     setFilteredProducts(data.allInventoryJson.edges)
     setCategoryCounts(categoryCounts)
   }, [data])
@@ -90,17 +101,33 @@ const ProductListing = () => {
     }
   }
 
+  // Function to track which sizes are selected in the filter products sidebar
+  const handleSizeChange = (size, isChecked) => {
+    if (isChecked) {
+      setSelectedSizes([...selectedSizes, size]);
+    } else {
+      setSelectedSizes(selectedSizes.filter(s => s !== size));
+    }
+  };
+
   // Function to apply filters to product listing
   const applyFilters = () => {
-    if (selectedCategories.length === 0) {
-      setFilteredProducts(data.allInventoryJson.edges)
-    } else {
-      const filtered = data.allInventoryJson.edges.filter(({ node }) =>
-        selectedCategories.includes(node.Category)
-      )
-      setFilteredProducts(filtered)
+    let filtered = data.allInventoryJson.edges;
+  
+    if (selectedCategories.length > 0) {
+      filtered = filtered.filter(({ node }) => selectedCategories.includes(node.Category));
     }
-  }
+    
+    if (selectedSizes.length > 0) {
+      filtered = filtered.filter(({ node }) =>
+        selectedSizes.some(size =>
+          node[`${size.toLowerCase()}Inv`] > 0
+        )
+      );
+    }
+
+    setFilteredProducts(filtered);
+  };
 
   // Function to handle clearing all filters
   const clearFilters = () => {
@@ -151,6 +178,22 @@ const ProductListing = () => {
               <label htmlFor={category} className={styles.filterLabel}>
                 {category} ({categoryCounts[category] || 0})
               </label>
+            </div>
+          ))}
+          {/* Size filter UI */}
+          <h5 className={styles.filterHeader}>Sizes</h5>
+          {sizes.map(size => (
+            <div key={size} className={styles.filterOption}>
+              <input
+                type="checkbox"
+                id={`size-${size}`}
+                name={size}
+                value={size}
+                className={styles.filterCheckbox}
+                onChange={e => handleSizeChange(size, e.target.checked)}
+                checked={selectedSizes.includes(size)}
+              />
+              <label htmlFor={`size-${size}`} className={styles.filterLabel}>{size}</label>
             </div>
           ))}
           <button className={styles.applyButton} onClick={() => applyFilters()}>
