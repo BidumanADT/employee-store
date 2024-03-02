@@ -114,24 +114,39 @@ const ProductListing = () => {
   const applyFilters = () => {
     let filtered = data.allInventoryJson.edges;
   
+    // Filter by selected categories if any
     if (selectedCategories.length > 0) {
-      filtered = filtered.filter(({ node }) => selectedCategories.includes(node.Category));
-    }
-    
-    if (selectedSizes.length > 0) {
       filtered = filtered.filter(({ node }) =>
-        selectedSizes.some(size =>
-          node[`${size.toLowerCase()}Inv`] > 0
-        )
+        selectedCategories.includes(node.Category)
       );
     }
-
+  
+    // Further filter by selected sizes if any
+    if (selectedSizes.length > 0) {
+      filtered = filtered.filter(({ node }) => {
+        if (selectedSizes.includes('OS') && node.OneSize) {
+          return true;
+        }
+  
+        // Map selected sizes to expected inventory fields
+        const inventoryFields = selectedSizes.map(size => {
+          // Transform size to match GraphQL query's inventory keys
+          const sizeKey = size.toLowerCase() + "Inv";
+          return sizeKey.charAt(0).toUpperCase() + sizeKey.slice(1);
+        });
+  
+        // Check if node has any of the selected sizes in inventory
+        return inventoryFields.some(field => node[field] && node[field] > 0);
+      });
+    }
+  
     setFilteredProducts(filtered);
   };
 
   // Function to handle clearing all filters
   const clearFilters = () => {
     setSelectedCategories([]) // Clear selected categories
+    setSelectedSizes([])
     setFilteredProducts(data.allInventoryJson.edges) // Reset to show all products
   }
 
