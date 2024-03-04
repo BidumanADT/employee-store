@@ -62,25 +62,29 @@ const ProductListing = () => {
   `)
 
   const products = data.allInventoryJson.edges
-  const sizeOrder = ["XS", "SM", "MD", "LG", "XL", "2X", "3X", "4X", "6X"]
+  const sizeOrder = ["One Size", "XS", "SM", "MD", "LG", "XL", "2X", "3X", "4X", "6X"]
 
   // useEffect to filter product listing by category
   useEffect(() => {
     const fetchedCategories = new Set()
-    const fetchedSizes = new Set()
+    const fetchedSizes = new Set(["One Size"])
     const categoryCounts = {}
 
     data.allInventoryJson.edges.forEach(({ node }) => {
       fetchedCategories.add(node.Category)
 
+      if (node.OneSize) {
+        fetchedSizes.add("One Size")
+      } else {
       // Iterate over size keys
-      const sizeKeys = ["XsInv", "SmInv", "MdInv", "LgInv", "XlInv", "_2xInv", "_3xInv", "_4xInv", "_6xInv"];
+      const sizeKeys = ["One Size", "XsInv", "SmInv", "MdInv", "LgInv", "XlInv", "_2xInv", "_3xInv", "_4xInv", "_6xInv"];
       sizeKeys.forEach(sizeKey => {
         if (node[sizeKey] > 0) {
           const displaySize = sizeKey.replace("Inv", "").replace('_', "").toUpperCase(); // Ensure correct format
           fetchedSizes.add(displaySize);
         }
-      });
+      })
+    }
 
       // Init or increment count for this category
       categoryCounts[node.Category] = (categoryCounts[node.Category] || 0) + 1
@@ -124,21 +128,29 @@ const ProductListing = () => {
     // Further filter by selected sizes if any
     if (selectedSizes.length > 0) {
       filtered = filtered.filter(({ node }) => {
-        if (selectedSizes.includes('OS') && node.OneSize) {
-          return true;
+        if (selectedSizes.includes('One Size') && node.OneSize) {
+          return true; // Show products marked as "One Size"
         }
   
-        // Map selected sizes to expected inventory fields
-        const inventoryFields = selectedSizes.map(size => {
-          // Transform size to match GraphQL query's inventory keys
-          const sizeKey = size.toLowerCase() + "Inv";
-          return sizeKey.charAt(0).toUpperCase() + sizeKey.slice(1);
-        });
+        const sizeKeys = selectedSizes.map(size => 
+          `${size.toLowerCase()}Inv`.charAt(0).toUpperCase() + 
+          `${size.toLowerCase()}Inv`.slice(1)
+        );
   
-        // Check if node has any of the selected sizes in inventory
-        return inventoryFields.some(field => node[field] && node[field] > 0);
+        return sizeKeys.some(sizeKey => node[sizeKey] && node[sizeKey] > 0);
       });
     }
+    //     // Map selected sizes to expected inventory fields
+    //     const inventoryFields = selectedSizes.map(size => {
+    //       // Transform size to match GraphQL query's inventory keys
+    //       const sizeKey = size.toLowerCase() + "Inv";
+    //       return sizeKey.charAt(0).toUpperCase() + sizeKey.slice(1);
+    //     });
+  
+    //     // Check if node has any of the selected sizes in inventory
+    //     return inventoryFields.some(field => node[field] && node[field] > 0);
+    //   });
+    // }
   
     setFilteredProducts(filtered);
   };
