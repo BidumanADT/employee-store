@@ -237,6 +237,8 @@ const ProductListing = () => {
                   src={node.Image?.publicURL || "./data/images/default.jpeg"}
                   alt={node.OriginalName || "Default Image"}
                   style={{ height: "200px", objectFit: "cover" }} // Ensures images are the same size
+                  onClick={e => handleShowDetail(node, e)}
+                  className={styles.clickableImage}
                 />
                 <Card.Body style={{ minHeight: "210px" }}>
                   {" "}
