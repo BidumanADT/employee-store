@@ -6,6 +6,7 @@ import { Container, Row, Col } from "react-bootstrap"
 import ListGroup from "react-bootstrap/ListGroup"
 import * as styles from "./ProductListing.module.css"
 import ProductDetail from "./ProductDetail"
+import Footer from "./Footer"
 
 // conditional rendering for a listing of all products
 const ProductListing = () => {
@@ -286,6 +287,7 @@ const ProductListing = () => {
         show={showDetail}
         onHide={() => setShowDetail(false)}
       />
+      <Footer />
     </div>
   )
 }
