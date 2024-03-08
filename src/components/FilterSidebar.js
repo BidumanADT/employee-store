@@ -1,5 +1,6 @@
 import React from 'react';
 import * as styles from './FilterSidebar.module.css';
+import PriceFilter from './PriceFilter';
 
 // The FilterSidebar component is responsible for rendering filter options and handling user interactions.
 const FilterSidebar = ({

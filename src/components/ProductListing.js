@@ -7,6 +7,7 @@ import ListGroup from "react-bootstrap/ListGroup"
 import * as styles from "./ProductListing.module.css"
 import ProductDetail from "./ProductDetail"
 import Footer from "./Footer"
+import PriceFilter from "./PriceFilter"
 
 // conditional rendering for a listing of all products
 const ProductListing = () => {
@@ -18,6 +19,7 @@ const ProductListing = () => {
   const [categoryCounts, setCategoryCounts] = useState({})
   const [sizes, setSizes] = useState([])
   const [selectedSizes, setSelectedSizes] = useState([])
+  const [selectedPrice, setSelectedPrice] = useState([])
 
   // pull all data from GraphQL backend
   const data = useStaticQuery(graphql`
@@ -167,17 +169,33 @@ const ProductListing = () => {
         return sizeKeys.some(sizeKey => node[sizeKey] && node[sizeKey] > 0)
       })
     }
-    //     // Map selected sizes to expected inventory fields
-    //     const inventoryFields = selectedSizes.map(size => {
-    //       // Transform size to match GraphQL query's inventory keys
-    //       const sizeKey = size.toLowerCase() + "Inv";
-    //       return sizeKey.charAt(0).toUpperCase() + sizeKey.slice(1);
-    //     });
-
-    //     // Check if node has any of the selected sizes in inventory
-    //     return inventoryFields.some(field => node[field] && node[field] > 0);
-    //   });
-    // }
+    
+    // Filter by selected price range
+    if (selectedPrice.length > 0) {
+      filtered = filtered.filter(({ node }) => {
+        const priceCheck = selectedPrice[0]; // Assuming only one price filter can be selected at a time
+  
+        const prices = Object.keys(node)
+          .filter(key => key.includes("Price") && node[key] !== null)
+          .map(priceKey => node[priceKey]);
+  
+        if (prices.length === 0) return false; // Skip if no price available
+  
+        // Get minimum price for products with multiple sizes
+        const minPrice = Math.min(...prices);
+  
+        switch (priceCheck) {
+          case "Under $15.00":
+            return minPrice < 15;
+          case "$25.00 or less":
+            return minPrice <= 25;
+          case "$50.00 or less":
+            return minPrice <= 50;
+          default:
+            return true;
+        }
+      });
+    }
 
     setFilteredProducts(filtered)
   }
@@ -187,6 +205,12 @@ const ProductListing = () => {
     setSelectedCategories([]) // Clear selected categories
     setSelectedSizes([])
     setFilteredProducts(data.allInventoryJson.edges) // Reset to show all products
+  }
+
+  // Function to handle price filters
+  const handlePriceChange = (event) => {
+    const price = event.target.value
+    setSelectedPrice(selectedPrice.includes(price) ? [] : [price])
   }
 
   // Funcion to handle launching of the product detail modal
@@ -226,7 +250,10 @@ const ProductListing = () => {
           applyFilters={applyFilters}
           clearFilters={clearFilters}
         />
-
+        <PriceFilter
+        handlePriceChange={handlePriceChange}
+        selectedPrice={selectedPrice}
+      />
       {/* Product listing section */}
       <Container className={styles.productContainer}>
         <Row>

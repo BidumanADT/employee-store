@@ -1,0 +1,21 @@
+.priceFilter {
+    margin-bottom: 20px;
+  }
+  
+  .filterHeader {
+    margin-bottom: 10px;
+  }
+  
+  .filterOption {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+  
+  .filterCheckbox {
+    margin-right: 10px;
+  }
+  
+  .filterLabel {
+    cursor: pointer;
+  }
