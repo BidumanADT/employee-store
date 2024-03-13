@@ -1,6 +1,5 @@
 import React from 'react';
 import * as styles from './FilterSidebar.module.css';
-import PriceFilter from './PriceFilter';
 
 // The FilterSidebar component is responsible for rendering filter options and handling user interactions.
 const FilterSidebar = ({
@@ -9,11 +8,17 @@ const FilterSidebar = ({
   sizes, // The list of all sizes available for filtering
   selectedCategories, // Currently selected categories by the user
   selectedSizes, // Currently selected sizes by the user
+  selectedPrice, // Currently selected price range by the user
   handleCategoryChange, // Function to update the state when a category is selected or deselected
   handleSizeChange, // Function to update the state when a size is selected or deselected
+  handlePriceChange, // Function to update the state when a price range is selceted or deselected
   applyFilters, // Function to apply the selected filters to the product listing
   clearFilters // Function to clear all selected filters
 }) => {
+
+  // Price filter options
+  const priceFilters = ["Under $15.00", "$25.00 or less", "$50.00 or less"]
+
   return (
     <div className={styles.filterSidebar}>
       {/* Categories section */}
@@ -32,6 +37,23 @@ const FilterSidebar = ({
           <label htmlFor={`category-${category}`} className={styles.filterLabel}>
             {category} ({categoryCounts[category] || 0})
           </label>
+        </div>
+      ))}
+
+      {/* Price section */}
+      <h5 className={styles.filterHeader}>Price</h5>
+      {priceFilters.map((priceFilter, index) => (
+        <div key={index} className={styles.filterOption}>
+          <input
+            type="radio" 
+            id={`price-${index}`}
+            name="price"
+            value={priceFilter}
+            className={styles.filterCheckbox}
+            onChange={handlePriceChange}
+            checked={selectedPrice.includes(priceFilter)}
+          />
+          <label htmlFor={`price-${index}`} className={styles.filterLabel}>{priceFilter}</label>
         </div>
       ))}
 

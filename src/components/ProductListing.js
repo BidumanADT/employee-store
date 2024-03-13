@@ -200,17 +200,18 @@ const ProductListing = () => {
     setFilteredProducts(filtered)
   }
 
-  // Function to handle clearing all filters
-  const clearFilters = () => {
-    setSelectedCategories([]) // Clear selected categories
-    setSelectedSizes([])
-    setFilteredProducts(data.allInventoryJson.edges) // Reset to show all products
-  }
-
   // Function to handle price filters
   const handlePriceChange = (event) => {
     const price = event.target.value
     setSelectedPrice(selectedPrice.includes(price) ? [] : [price])
+  }
+
+  // Function to handle clearing all filters
+  const clearFilters = () => {
+    setSelectedCategories([]) // Clear selected categories
+    setSelectedSizes([])
+    setSelectedPrice([])
+    setFilteredProducts(data.allInventoryJson.edges) // Reset to show all products
   }
 
   // Funcion to handle launching of the product detail modal
@@ -245,15 +246,13 @@ const ProductListing = () => {
           sizes={sizes}
           selectedCategories={selectedCategories}
           selectedSizes={selectedSizes}
+          selectedPrice={selectedPrice}
           handleCategoryChange={handleCategoryChange}
           handleSizeChange={handleSizeChange}
+          handlePriceChange={handlePriceChange}
           applyFilters={applyFilters}
           clearFilters={clearFilters}
         />
-        <PriceFilter
-        handlePriceChange={handlePriceChange}
-        selectedPrice={selectedPrice}
-      />
       {/* Product listing section */}
       <Container className={styles.productContainer}>
         <Row>
