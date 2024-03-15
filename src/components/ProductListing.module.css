@@ -5,7 +5,7 @@
   background-color: #f0f0f0; /* Example background color */
   text-align: center; /* Center the text */
   padding: 20px; /* Add some padding */
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Optional: add a shadow for depth */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Add a shadow for depth */
   margin-bottom: 20px; /* Add some space between the welcome section and the rest of the content */
 }
 
@@ -121,8 +121,9 @@
   }
 
   .applyButton, .clearButton {
-    padding: 15px 25px; /* Increase button size for easier tapping */
+    padding: 12px 24px; /* Increase button size for easier tapping */
     font-size: 1.1em; /* Increase font size for readability */
+    margin-bottom: 10px; /* Add space between buttons */
   }
 
   .filter-option, .filter-header, .filter-label {
@@ -134,4 +135,40 @@
     height: auto; /* Make welcome section height auto to accommodate content */
     padding: 15px; /* Reduce padding */
   }
+
+  /* Adjustments for legibility and accessibility */
+  .filter-header, .filter-label {
+    font-size: 1.1em; /* Larger font size for headers and labels */
+    line-height: 1.4; /* Improved line height for readability */
+  }
+
+  .filter-checkbox, .filter-option input[type="checkbox"] {
+    transform: scale(1.2); /* Larger checkboxes */
+    margin-right: 12px; /* Adjusted spacing */
+  }
+
+  .clickableImage {
+    transition: opacity 0.3s ease; /* Smooth transition for feedback */
+  }
 }
+
+/* Additional styles for better usability on very small screens */
+@media (max-width: 480px) {
+  .filter-sidebar {
+    padding: 8px; /* Reduced padding for very small screens */
+  }
+
+  .applyButton, .clearButton {
+    padding: 10px 20px; /* Adjust button padding for very small screens */
+    font-size: 1em; /* Adjust font size for buttons */
+  }
+
+  /* Adjust the welcome section for very small screens */
+  .welcomeSection {
+    padding: 10px;
+    font-size: 0.9em; /* Smaller text in the welcome section */
+  }
+}
+
+
+
