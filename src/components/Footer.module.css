@@ -8,3 +8,10 @@
     bottom: 0;
     width: 100%;
   }
+
+  @media (max-width: 768px) {
+    .footer {
+      padding: 10px; /* Reduce padding on smaller screens */
+      font-size: 0.9em; /* Reduce font size on smaller screens */
+    }
+  }

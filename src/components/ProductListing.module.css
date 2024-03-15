@@ -28,6 +28,10 @@
 .clickableImage {
   cursor: pointer;
 }
+
+.clickableImage:hover {
+  opacity: 0.8; /* Slight visual feedback on hover */
+}
   
 /* Styling for the filter category headers */
 .filter-header {
@@ -96,6 +100,32 @@
   .filter-sidebar, .sidebarAndListing {
     flex-direction: column; /* Stack filter and products vertically on smaller screens */
     width: 100%; /* Full width on smaller screens */
+    padding: 10px; /* Reduce padding to save space */
+  }
+
+  .sidebarAndListing {
+    flex-direction: column; /* Stack sidebar and listing vertically */
+  }
+
+  .productContainer .row > div {
+    /* Ensure product cards take full width on small screens */
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .applyButton, .clearButton {
+    padding: 15px 25px; /* Increase button size for easier tapping */
+    font-size: 1.1em; /* Increase font size for readability */
+  }
+
+  .filter-option, .filter-header, .filter-label {
+    /* Adjust font size for better readability on small screens */
+    font-size: 1em;
+  }
+
+  .welcomeSection {
+    height: auto; /* Make welcome section height auto to accommodate content */
+    padding: 15px; /* Reduce padding */
   }
 }
 

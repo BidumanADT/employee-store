@@ -19,3 +19,17 @@
   .filterLabel {
     cursor: pointer;
   }
+
+  @media (max-width: 768px) {
+    .filterOption {
+      margin-bottom: 10px; /* Increase spacing for easier interaction */
+    }
+  
+    .filterCheckbox {
+      margin-right: 15px; /* Increase spacing around checkboxes */
+    }
+  
+    .filterLabel {
+      font-size: 1em; /* Ensure text is legible on smaller screens */
+    }
+  }
