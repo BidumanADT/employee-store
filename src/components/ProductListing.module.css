@@ -1,3 +1,14 @@
+/* Welcome section styles */
+.welcomeSection {
+  width: 100%;
+  height: 25vh; /* Adjust the height as needed */
+  background-color: #f0f0f0; /* Example background color */
+  text-align: center; /* Center the text */
+  padding: 20px; /* Add some padding */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Optional: add a shadow for depth */
+  margin-bottom: 20px; /* Add some space between the welcome section and the rest of the content */
+}
+
 /* Primary container to be two columns (sidebar and listing) */
 .mainContent {
   display: flex;
@@ -103,10 +114,6 @@
     padding: 10px; /* Reduce padding to save space */
   }
 
-  .sidebarAndListing {
-    flex-direction: column; /* Stack sidebar and listing vertically */
-  }
-
   .productContainer .row > div {
     /* Ensure product cards take full width on small screens */
     flex: 0 0 100%;
@@ -127,15 +134,4 @@
     height: auto; /* Make welcome section height auto to accommodate content */
     padding: 15px; /* Reduce padding */
   }
-}
-
-  /* Welcome section styles */
-.welcomeSection {
-  width: 100%;
-  height: 25vh; /* Adjust the height as needed */
-  background-color: #f0f0f0; /* Example background color */
-  text-align: center; /* Center the text */
-  padding: 20px; /* Add some padding */
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Optional: add a shadow for depth */
-  margin-bottom: 20px; /* Add some space between the welcome section and the rest of the content */
 }
