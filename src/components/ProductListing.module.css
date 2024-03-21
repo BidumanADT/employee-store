@@ -98,6 +98,10 @@
   background-color: #c82333; /* Darker red background */
 }
 
+.filterToggle {
+  display: none;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .filter-sidebar, .sidebarAndListing {
@@ -147,6 +151,10 @@
   .clickableImage:hover {
     opacity: 0.8; /* Maintain visual feedback on hover */
   }
+
+  .filterToggle {
+    display: none;
+  }
 }
 
 /* Additional styles for better usability on very small screens */
@@ -165,6 +173,18 @@
     padding: 10px;
     font-size: 0.9em; /* Smaller text in the welcome section */
   }
+
+  .filterToggle {
+    display: block;
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    margin-bottom: 15px;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  
 }
 
 

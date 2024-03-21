@@ -7,7 +7,7 @@ import ListGroup from "react-bootstrap/ListGroup"
 import * as styles from "./ProductListing.module.css"
 import ProductDetail from "./ProductDetail"
 import Footer from "./Footer"
-import PriceFilter from "./PriceFilter"
+
 
 // conditional rendering for a listing of all products
 const ProductListing = () => {
@@ -20,6 +20,7 @@ const ProductListing = () => {
   const [sizes, setSizes] = useState([])
   const [selectedSizes, setSelectedSizes] = useState([])
   const [selectedPrice, setSelectedPrice] = useState([])
+  const [isFilterVisible, setIsFilterVisible] = useState(false)
 
   // pull all data from GraphQL backend
   const data = useStaticQuery(graphql`
@@ -221,6 +222,11 @@ const ProductListing = () => {
     setShowDetail(true) // Show the modal
   }
 
+  // Function to toggle the collapsible filter visibility
+  const toggleFilterVisibility = ()=> {
+    setIsFilterVisible(!isFilterVisible)
+  }
+
   return (
     <div className={styles.mainContent}>
       {/* Welcome section */}
@@ -238,8 +244,16 @@ const ProductListing = () => {
           Nisi anim culpa sint officia incididunt.
         </p>
       </div>
+      {/* Toggle button */}
+      <button
+        className={styles.filterToggle}
+        onClick={toggleFilterVisibility}
+      >
+        {isFilterVisible ? "Hide Filters" : "Show Filters"}
+      </button>
       {/* Sidebar and Listing sections */}
       <div className={styles.sidebarAndListing}>
+      <div className={`${styles.filterSidebar} ${isFilterVisible ? 'expanded' : ''}`}>
         <FilterSidebar
           categories={categories}
           categoryCounts={categoryCounts}
@@ -253,6 +267,7 @@ const ProductListing = () => {
           applyFilters={applyFilters}
           clearFilters={clearFilters}
         />
+        </div>
       {/* Product listing section */}
       <Container className={styles.productContainer}>
         <Row>
@@ -315,6 +330,7 @@ const ProductListing = () => {
       />
       <Footer />
     </div>
+
   )
 }
 
