@@ -1,14 +1,14 @@
 import React from "react";
-import { Modal, Button, ListGroup, Container, Row, Col } from 'react-bootstrap';
+import { Modal, Button, Table, Container, Row, Col } from 'react-bootstrap';
 
 const ProductDetail = ({ product, show, onHide }) => {
-  // Functions to format and display sizes and prices
+  // Function to format currency values
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD'
-    }).format(amount)
-  }
+    }).format(amount);
+  };
 
   const renderSizes = (product) => {
     if (!product) return null; // Ensure product data is available
@@ -16,7 +16,10 @@ const ProductDetail = ({ product, show, onHide }) => {
     if (product.OneSize) {
       // Display for one-size products
       return (
-        <ListGroup.Item>Price: {formatCurrency(product._1SizePrice)}</ListGroup.Item>
+        <tr>
+          <td>One Size</td>
+          <td>{formatCurrency(product._1SizePrice)}</td>
+        </tr>
       );
     } else {
       // Display for products with multiple sizes
@@ -24,16 +27,19 @@ const ProductDetail = ({ product, show, onHide }) => {
       return sizes.map(size => {
         const inventoryKey = `${size}Inv`;
         const priceKey = `${size}Price`;
-        const inventoryCount = product[inventoryKey];
         const price = product[priceKey];
+        const inventoryCount = product[inventoryKey];
+        
 
         if (inventoryCount && price) {
-          // Convert size codes to readable format
           const sizeFormat = size.replace('_', '').toUpperCase();
           return (
-            <ListGroup.Item key={size}>
-              Size {sizeFormat}: {inventoryCount} available | {formatCurrency(price)} each
-            </ListGroup.Item>
+            <tr key={size}>
+              <td>{sizeFormat}</td>
+              <td>{formatCurrency(price)} each</td>
+              <td>{inventoryCount} available</td>
+              
+            </tr>
           );
         }
         return null;
@@ -66,9 +72,18 @@ const ProductDetail = ({ product, show, onHide }) => {
             </Col>
             <Col xs={12} md={6}>
               <p>{product?.Description}</p>
-              <ListGroup>
-                {renderSizes(product)}
-              </ListGroup>
+              <Table striped bordered hover size="sm">
+                <thead>
+                  <tr>
+                    <th>Size</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {renderSizes(product)}
+                </tbody>
+              </Table>
             </Col>
           </Row>
         </Container>

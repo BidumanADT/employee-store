@@ -253,7 +253,7 @@ const ProductListing = () => {
       </button>
       {/* Sidebar and Listing sections */}
       <div className={styles.sidebarAndListing}>
-      <div className={`${styles.filterSidebar} ${isFilterVisible ? 'expanded' : ''}`}>
+      <div className={`${styles.sidebarAndListing} ${isFilterVisible ? styles.expanded : ''}`}>
         <FilterSidebar
           categories={categories}
           categoryCounts={categoryCounts}
@@ -272,8 +272,8 @@ const ProductListing = () => {
       <Container className={styles.productContainer}>
         <Row>
           {filteredProducts.map(({ node }) => (
-            <Col xs={12} sm={6} md={4} lg={3} key={node.id}>
-              <Card style={{ width: "18rem", margin: "10px" }}>
+            <Col xs={12} sm={6} xl={3} key={node.id}>
+              <Card style={{ margin: "10px" }}>
                 <Card.Img
                   variant="top"
                   src={node.Image?.publicURL || "./data/images/default.jpeg"}
