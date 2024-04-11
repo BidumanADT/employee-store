@@ -7,7 +7,7 @@ import ListGroup from "react-bootstrap/ListGroup"
 import * as styles from "./ProductListing.module.css"
 import ProductDetail from "./ProductDetail"
 import Footer from "./Footer"
-
+import { formatCurrency } from "./utils"
 
 // conditional rendering for a listing of all products
 const ProductListing = () => {
@@ -20,7 +20,7 @@ const ProductListing = () => {
   const [sizes, setSizes] = useState([])
   const [selectedSizes, setSelectedSizes] = useState([])
   const [selectedPrice, setSelectedPrice] = useState([])
-  const [isFilterVisible, setIsFilterVisible] = useState(false)
+  const [isFilterVisible, setIsFilterVisible] = useState(true)
 
   // pull all data from GraphQL backend
   const data = useStaticQuery(graphql`
@@ -170,39 +170,39 @@ const ProductListing = () => {
         return sizeKeys.some(sizeKey => node[sizeKey] && node[sizeKey] > 0)
       })
     }
-    
+
     // Filter by selected price range
     if (selectedPrice.length > 0) {
       filtered = filtered.filter(({ node }) => {
-        const priceCheck = selectedPrice[0]; // Assuming only one price filter can be selected at a time
-  
+        const priceCheck = selectedPrice[0] // Assuming only one price filter can be selected at a time
+
         const prices = Object.keys(node)
           .filter(key => key.includes("Price") && node[key] !== null)
-          .map(priceKey => node[priceKey]);
-  
-        if (prices.length === 0) return false; // Skip if no price available
-  
+          .map(priceKey => node[priceKey])
+
+        if (prices.length === 0) return false // Skip if no price available
+
         // Get minimum price for products with multiple sizes
-        const minPrice = Math.min(...prices);
-  
+        const minPrice = Math.min(...prices)
+
         switch (priceCheck) {
           case "Under $15.00":
-            return minPrice < 15;
+            return minPrice < 15
           case "$25.00 or less":
-            return minPrice <= 25;
+            return minPrice <= 25
           case "$50.00 or less":
-            return minPrice <= 50;
+            return minPrice <= 50
           default:
-            return true;
+            return true
         }
-      });
+      })
     }
 
     setFilteredProducts(filtered)
   }
 
   // Function to handle price filters
-  const handlePriceChange = (event) => {
+  const handlePriceChange = event => {
     const price = event.target.value
     setSelectedPrice(selectedPrice.includes(price) ? [] : [price])
   }
@@ -222,107 +222,104 @@ const ProductListing = () => {
     setShowDetail(true) // Show the modal
   }
 
-  // Function to toggle the collapsible filter visibility
-  const toggleFilterVisibility = ()=> {
-    setIsFilterVisible(!isFilterVisible)
+  const toggleFilterVisibility = () => {
+    setIsFilterVisible(!isFilterVisible) // Toggles the visibility state
   }
 
   return (
     <div className={styles.mainContent}>
-      {/* Welcome section */}
       <div className={styles.welcomeSection}>
         <h2>Welcome to the Company Store!</h2>
         <h4>Explore our latest products and offers.</h4>
         <p>
-          Qui irure amet amet laboris sint anim aliquip consectetur sint ipsum
-          aliquip minim Lorem do. Excepteur est nisi adipisicing consectetur
-          adipisicing fugiat cupidatat officia eu culpa pariatur do labore
-          ipsum. Aliqua labore adipisicing fugiat aliquip labore aliqua veniam
-          incididunt sit amet. Voluptate eiusmod qui ullamco velit aliqua ipsum
-          reprehenderit. Nostrud adipisicing anim tempor sint et dolor sit nulla
-          pariatur sunt irure. Consequat proident excepteur fugiat cupidatat.
-          Nisi anim culpa sint officia incididunt.
+          Qui irure amet amet laboris sint anim aliquip consectetur sint
+          ipsum...
         </p>
       </div>
-      {/* Toggle button */}
+
       <button
         className={styles.filterToggle}
-        onClick={toggleFilterVisibility}
+        onClick={() =>
+          toggleFilterVisibility(setIsFilterVisible, isFilterVisible)
+        }
       >
         {isFilterVisible ? "Hide Filters" : "Show Filters"}
       </button>
-      {/* Sidebar and Listing sections */}
+
       <div className={styles.sidebarAndListing}>
-      <div className={`${styles.sidebarAndListing} ${isFilterVisible ? styles.expanded : ''}`}>
-        <FilterSidebar
-          categories={categories}
-          categoryCounts={categoryCounts}
-          sizes={sizes}
-          selectedCategories={selectedCategories}
-          selectedSizes={selectedSizes}
-          selectedPrice={selectedPrice}
-          handleCategoryChange={handleCategoryChange}
-          handleSizeChange={handleSizeChange}
-          handlePriceChange={handlePriceChange}
-          applyFilters={applyFilters}
-          clearFilters={clearFilters}
-        />
+        <div
+          className={`${styles.filterSidebar} ${
+            isFilterVisible ? ".expanded" : ""
+          }`}
+        >
+          {isFilterVisible && (
+            <FilterSidebar
+              categories={categories}
+              categoryCounts={categoryCounts}
+              sizes={sizes}
+              selectedCategories={selectedCategories}
+              selectedSizes={selectedSizes}
+              selectedPrice={selectedPrice}
+              handleCategoryChange={handleCategoryChange}
+              handleSizeChange={handleSizeChange}
+              handlePriceChange={handlePriceChange}
+              applyFilters={applyFilters}
+              clearFilters={clearFilters}
+            />
+          )}
         </div>
-      {/* Product listing section */}
-      <Container className={styles.productContainer}>
-        <Row>
-          {filteredProducts.map(({ node }) => (
-            <Col xs={12} sm={6} xl={3} key={node.id}>
-              <Card style={{ margin: "10px" }}>
-                <Card.Img
-                  variant="top"
-                  src={node.Image?.publicURL || "./data/images/default.jpeg"}
-                  alt={node.OriginalName || "Default Image"}
-                  style={{ height: "200px", objectFit: "cover" }} // Ensures images are the same size
-                  onClick={e => handleShowDetail(node, e)}
-                  className={styles.clickableImage}
-                />
-                <Card.Body style={{ minHeight: "210px" }}>
-                  {" "}
-                  {/* Adjust minHeight as needed */}
-                  <Card.Title>
-                    {node.NewName ? node.NewName : node.OriginalName}
-                  </Card.Title>
-                  <Card.Text>
-                    {node.Description && node.Description.substring(0, 100)}
-                    {node.Description && node.Description.length > 100
-                      ? "..."
-                      : ""}
-                  </Card.Text>
-                </Card.Body>
-                <ListGroup className="list-group-flush">
-                  <ListGroup.Item>
-                    {node.OneSize
-                      ? "One Size Fits Most"
-                      : "Multiple Sizes Available"}
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    Price:{" "}
-                    {node.OneSize
-                      ? `${new Intl.NumberFormat("en-US", {
-                          style: "currency",
-                          currency: "USD",
-                        }).format(node._1SizePrice)}`
-                      : "Varies"}
-                  </ListGroup.Item>
-                </ListGroup>
-                <Card.Body>
-                  <Card.Link href="#" onClick={e => handleShowDetail(node, e)}>
-                    Show Details
-                  </Card.Link>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
-        </Row>
-      </Container>
+        <Container className={styles.productContainer}>
+          <Row>
+            {filteredProducts.map(({ node }) => (
+              <Col xs={12} sm={6} lg={3} key={node.id}>
+                <Card style={{ margin: "10px" }}>
+                  <Card.Img
+                    variant="top"
+                    src={node.Image?.publicURL || "./data/images/default.jpeg"}
+                    alt={node.OriginalName || "Default Image"}
+                    style={{ height: "200px", objectFit: "cover" }}
+                    onClick={e => handleShowDetail(node, e)}
+                    className={styles.clickableImage}
+                  />
+                  <Card.Body style={{ minHeight: "210px" }}>
+                    <Card.Title>
+                      {node.NewName ? node.NewName : node.OriginalName}
+                    </Card.Title>
+                    <Card.Text>
+                      {node.Description && node.Description.substring(0, 100)}
+                      {node.Description && node.Description.length > 100
+                        ? "..."
+                        : ""}
+                    </Card.Text>
+                  </Card.Body>
+                  <ListGroup className="list-group-flush">
+                    <ListGroup.Item>
+                      {node.OneSize
+                        ? "One Size Fits Most"
+                        : "Multiple Sizes Available"}
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      Price:{" "}
+                      {node.OneSize
+                        ? `${formatCurrency(node._1SizePrice)}`
+                        : "Varies"}
+                    </ListGroup.Item>
+                  </ListGroup>
+                  <Card.Body>
+                    <Card.Link
+                      href="#"
+                      onClick={e => handleShowDetail(node, e)}
+                    >
+                      Show Details
+                    </Card.Link>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        </Container>
       </div>
-      {/* Product Detail Modal */}
+
       <ProductDetail
         product={selectedProduct}
         show={showDetail}
@@ -330,7 +327,6 @@ const ProductListing = () => {
       />
       <Footer />
     </div>
-
   )
 }
 

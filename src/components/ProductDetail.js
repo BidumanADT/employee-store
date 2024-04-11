@@ -1,14 +1,8 @@
 import React from "react";
 import { Modal, Button, Table, Container, Row, Col } from 'react-bootstrap';
+import { formatCurrency } from './utils';
 
 const ProductDetail = ({ product, show, onHide }) => {
-  // Function to format currency values
-  const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD'
-    }).format(amount);
-  };
 
   const renderSizes = (product) => {
     if (!product) return null; // Ensure product data is available
@@ -19,6 +13,7 @@ const ProductDetail = ({ product, show, onHide }) => {
         <tr>
           <td>One Size</td>
           <td>{formatCurrency(product._1SizePrice)}</td>
+          <td>{product._1SizeInv} available</td>
         </tr>
       );
     } else {
@@ -38,7 +33,6 @@ const ProductDetail = ({ product, show, onHide }) => {
               <td>{sizeFormat}</td>
               <td>{formatCurrency(price)} each</td>
               <td>{inventoryCount} available</td>
-              
             </tr>
           );
         }

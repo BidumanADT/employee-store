@@ -28,12 +28,13 @@
 }
 
 /* Container for the filter sidebar */
-.filter-sidebar {
-    background-color: #f7f7f7; /* Light grey background */
-    padding: 20px; /* Padding around the content */
-    width: 250px; /* Fixed width for the sidebar */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  }
+.filterSidebar {
+  display: block;
+  background-color: #f7f7f7; /* Light grey background */
+  padding: 20px; /* Padding around the content */
+  width: 250px; /* Fixed width for the sidebar */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
 
 /* Image cursor in product listing */
 .clickableImage {
@@ -104,7 +105,7 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .filter-sidebar, .sidebarAndListing {
+  .filterSidebar, .sidebarAndListing {
     flex-direction: column; /* Stack filter and products vertically on smaller screens */
     width: 100%; /* Full width on smaller screens */
     padding: 10px; /* Reduce padding to save space */
@@ -159,8 +160,18 @@
 
 /* Additional styles for better usability on very small screens */
 @media (max-width: 480px) {
-  .filter-sidebar {
-    padding: 8px; /* Reduced padding for very small screens */
+
+  .sidebarAndListing {
+    flex-direction: column;
+  }
+  
+  .filterSidebar {
+    flex-direction: column; /* Stack filter and products vertically on smaller screens */
+    display: none;   /* Hide when conditions meet */
+  }
+
+  .filterSidebar.expanded {
+    display: block;  /* Only display when expanded */
   }
 
   .applyButton, .clearButton {

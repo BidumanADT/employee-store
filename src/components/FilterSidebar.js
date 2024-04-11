@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import * as styles from './FilterSidebar.module.css';
 
 // The FilterSidebar component is responsible for rendering filter options and handling user interactions.
@@ -16,14 +16,21 @@ const FilterSidebar = ({
   clearFilters // Function to clear all selected filters
 }) => {
 
+  const [showCategories, setShowCategories] = useState(false);
+  const [showPrices, setShowPrices] = useState(false);
+  const [showSizes, setShowSizes] = useState(false);
+
   // Price filter options
   const priceFilters = ["Under $15.00", "$25.00 or less", "$50.00 or less"]
 
   return (
     <div className={styles.filterSidebar}>
+      <p>Filter by:</p>
       {/* Categories section */}
-      <h5 className={styles.filterHeader}>Category</h5>
-      {categories.map(category => (
+      <h5 className={styles.filterHeader} onClick={() => setShowCategories(!showCategories)}>
+        Category
+      </h5>
+      {showCategories && categories.map(category => (
         <div key={category} className={styles.filterOption}>
           <input
             type="checkbox"
@@ -41,11 +48,13 @@ const FilterSidebar = ({
       ))}
 
       {/* Price section */}
-      <h5 className={styles.filterHeader}>Price</h5>
-      {priceFilters.map((priceFilter, index) => (
+      <h5 className={styles.filterHeader} onClick={() => setShowPrices(!showPrices)}>
+        Price
+      </h5>
+      {showPrices && priceFilters.map((priceFilter, index) => (
         <div key={index} className={styles.filterOption}>
           <input
-            type="radio" 
+            type="radio"
             id={`price-${index}`}
             name="price"
             value={priceFilter}
@@ -58,8 +67,10 @@ const FilterSidebar = ({
       ))}
 
       {/* Sizes section */}
-      <h5 className={styles.filterHeader}>Sizes</h5>
-      {sizes.map(size => (
+      <h5 className={styles.filterHeader} onClick={() => setShowSizes(!showSizes)}>
+        Sizes
+      </h5>
+      {showSizes && sizes.map(size => (
         <div key={size} className={styles.filterOption}>
           <input
             type="checkbox"
