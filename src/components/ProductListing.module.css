@@ -166,11 +166,11 @@
   }
   
   .filterSidebar {
-    flex-direction: column; /* Stack filter and products vertically on smaller screens */
     display: none;   /* Hide when conditions meet */
   }
 
   .filterSidebar.expanded {
+    flex-direction: column; /* Stack filter and products vertically on smaller screens */
     display: block;  /* Only display when expanded */
   }
 
@@ -195,7 +195,6 @@
     cursor: pointer;
   }
 
-  
 }
 
 
