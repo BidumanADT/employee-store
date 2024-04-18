@@ -28,7 +28,7 @@ const FilterSidebar = ({
       <p>Filter by:</p>
       {/* Categories section */}
       <h5 className={styles.filterHeader} onClick={() => setShowCategories(!showCategories)}>
-        Category
+        Category {showCategories ? '▲' : '▼'}
       </h5>
       {showCategories && categories.map(category => (
         <div key={category} className={styles.filterOption}>
@@ -49,7 +49,7 @@ const FilterSidebar = ({
 
       {/* Price section */}
       <h5 className={styles.filterHeader} onClick={() => setShowPrices(!showPrices)}>
-        Price
+        Price {showPrices ? '▲' : '▼'}
       </h5>
       {showPrices && priceFilters.map((priceFilter, index) => (
         <div key={index} className={styles.filterOption}>
@@ -68,7 +68,7 @@ const FilterSidebar = ({
 
       {/* Sizes section */}
       <h5 className={styles.filterHeader} onClick={() => setShowSizes(!showSizes)}>
-        Sizes
+        Sizes {showSizes ? '▲' : '▼'}
       </h5>
       {showSizes && sizes.map(size => (
         <div key={size} className={styles.filterOption}>

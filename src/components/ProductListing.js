@@ -249,7 +249,7 @@ const ProductListing = () => {
       <div className={styles.sidebarAndListing}>
         <div
           className={`${styles.filterSidebar} ${
-            isFilterVisible ? ".expanded" : ""
+            isFilterVisible ? "expanded" : ""
           }`}
         >
           {isFilterVisible && (
