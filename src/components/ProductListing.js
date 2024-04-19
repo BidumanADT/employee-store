@@ -248,7 +248,7 @@ const ProductListing = () => {
 
       <div className={styles.sidebarAndListing}>
         <div
-          className={`${styles.filterSidebar} ${
+          className={`${styles.filterSidebarContainer} ${
             isFilterVisible ? "expanded" : ""
           }`}
         >

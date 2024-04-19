@@ -28,7 +28,7 @@
 }
 
 /* Container for the filter sidebar */
-.filterSidebar {
+.filterSidebarContainer {
   display: block;
   background-color: #f7f7f7; /* Light grey background */
   padding: 20px; /* Padding around the content */

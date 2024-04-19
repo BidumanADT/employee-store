@@ -87,13 +87,15 @@ const FilterSidebar = ({
         </div>
       ))}
 
-      {/* Control buttons */}
-      <button className={styles.applyButton} onClick={applyFilters}>
-        Apply Filters
-      </button>
-      <button className={styles.clearButton} onClick={clearFilters}>
-        Clear All
-      </button>
+      {/* Button Container */}
+      <div className={styles.buttonsContainer}>
+        <button className={styles.applyButton} onClick={applyFilters}>
+          Apply Filters
+        </button>
+        <button className={styles.clearButton} onClick={clearFilters}>
+          Clear All
+        </button>
+      </div>
     </div>
   );
 };

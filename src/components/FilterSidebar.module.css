@@ -1,21 +1,3 @@
-/* Primary container to be two columns (sidebar and listing) */
-.mainContent {
-  display: flex;
-  flex-direction: column;
-}
-
-/* Container for sidebar and listing to be side by side */
-.sidebarAndListing {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-}
-
-/* Container for product listing */
-.productContainer {
-  flex-grow: 1;
-}
-
 /* Container for the filter sidebar */
 .filterSidebar {
   background-color: #f7f7f7; /* Light grey background */
@@ -61,36 +43,36 @@
   color: #555; /* Medium grey color */
 }
 
-/* Styling for the apply button */
-.applyButton {
-  background-color: #007bff; /* Blue background */
+/* Control buttons container */
+.buttonsContainer {
+  display: flex; /* Use flexbox to arrange children side by side */
+  justify-content: space-between; /* Space out buttons evenly */
+  margin-top: 20px; /* Space above the button container */
+}
+
+/* Styling for the apply and clear buttons */
+.applyButton, .clearButton {
+  background-color: #007bff; /* Blue background for apply, red for clear */
   color: #ffffff; /* White text */
   border: none; /* Remove border */
-  padding: 10px 20px; /* Padding inside the button */
-  font-size: 1em; /* Button text size */
+  padding: 8px 15px; /* Smaller padding for a more compact look */
+  font-size: 0.9em; /* Slightly smaller font size */
   cursor: pointer; /* Pointer cursor on hover */
   border-radius: 5px; /* Rounded corners */
-  display: block; /* Block display to fit width */
-  margin-top: 20px; /* Space above the button */
-  width: 100%; /* Make button full width for easier click */
+  flex-grow: 1; /* Flex grow to fill the container */
+  margin: 0 5px; /* Margins to avoid touching each other */
+}
+
+.applyButton {
+  background-color: #007bff; /* Maintaining distinct colors */
 }
 
 .applyButton:hover {
   background-color: #0056b3; /* Darker blue on hover */
 }
 
-/* Styling for the clear button */
 .clearButton {
   background-color: #dc3545; /* Red background */
-  color: #ffffff;
-  border: none; /* Remove border */
-  padding: 10px 20px; /* Padding inside the button */
-  font-size: 1em; /* Button text size */
-  cursor: pointer; /* Pointer cursor on hover */
-  border-radius: 5px; /* Rounded corners */
-  display: block; /* Block display to fit width */
-  margin-top: 10px; /* Reduced space above the button for compact design */
-  width: 100%; /* Make button full width for easier click */
 }
 
 .clearButton:hover {
