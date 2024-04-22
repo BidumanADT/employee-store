@@ -20,7 +20,6 @@ const ProductListing = () => {
   const [sizes, setSizes] = useState([])
   const [selectedSizes, setSelectedSizes] = useState([])
   const [selectedPrice, setSelectedPrice] = useState([])
-  const [isFilterVisible, setIsFilterVisible] = useState(true)
 
   // pull all data from GraphQL backend
   const data = useStaticQuery(graphql`
@@ -222,10 +221,6 @@ const ProductListing = () => {
     setShowDetail(true) // Show the modal
   }
 
-  const toggleFilterVisibility = () => {
-    setIsFilterVisible(!isFilterVisible) // Toggles the visibility state
-  }
-
   return (
     <div className={styles.mainContent}>
       <div className={styles.welcomeSection}>
@@ -236,23 +231,9 @@ const ProductListing = () => {
           ipsum...
         </p>
       </div>
-
-      <button
-        className={styles.filterToggle}
-        onClick={() =>
-          toggleFilterVisibility(setIsFilterVisible, isFilterVisible)
-        }
-      >
-        {isFilterVisible ? "Hide Filters" : "Show Filters"}
-      </button>
-
       <div className={styles.sidebarAndListing}>
-        <div
-          className={`${styles.filterSidebarContainer} ${
-            isFilterVisible ? "expanded" : ""
-          }`}
-        >
-          {isFilterVisible && (
+        
+          
             <FilterSidebar
               categories={categories}
               categoryCounts={categoryCounts}
@@ -266,8 +247,8 @@ const ProductListing = () => {
               applyFilters={applyFilters}
               clearFilters={clearFilters}
             />
-          )}
-        </div>
+          
+
         <Container className={styles.productContainer}>
           <Row>
             {filteredProducts.map(({ node }) => (

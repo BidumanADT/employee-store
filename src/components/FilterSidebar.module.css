@@ -95,21 +95,8 @@
 }
 
 @media (max-width: 480px) {
-  .filterSidebar {
-    display: none; /* Hide sidebar initially on very small screens */
+  .filterSidebar, .sidebarAndListing {
+    flex-direction: column; /* Stack filter and products vertically on smaller screens */
   }
-
-  .filterSidebar.expanded {
-    display: block; /* Show sidebar when expanded */
-  }
-
-  .filterToggle {
-    display: block; /* Ensure toggle button is visible on small screens */
-    background-color: #007bff;
-    color: white;
-    padding: 10px;
-    margin-bottom: 15px;
-    text-align: center;
-    cursor: pointer;
-  }
+  
 }

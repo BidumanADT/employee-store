@@ -18,7 +18,7 @@
 }
 
 /* Container for sidebar and listing to be side by side */
-.sidebarAndListing{
+.sidebarAndListing {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -163,17 +163,8 @@
 /* Additional styles for better usability on very small screens */
 @media (max-width: 480px) {
 
-  .sidebarAndListing {
+  .sidebarAndListing, .filterSidebar {
     flex-direction: column;
-  }
-  
-  .filterSidebar {
-    display: none;   /* Hide when conditions meet */
-  }
-
-  .filterSidebar.expanded {
-    flex-direction: column; /* Stack filter and products vertically on smaller screens */
-    display: block;  /* Only display when expanded */
   }
 
   .applyButton, .clearButton {
