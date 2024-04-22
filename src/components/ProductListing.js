@@ -227,72 +227,48 @@ const ProductListing = () => {
         <h2>Welcome to the Company Store!</h2>
         <h4>Explore our latest products and offers.</h4>
         <p>
-          Qui irure amet amet laboris sint anim aliquip consectetur sint
-          ipsum...
+          Qui irure amet amet laboris sint anim aliquip consectetur sint ipsum...
         </p>
       </div>
       <div className={styles.sidebarAndListing}>
-        
-          
-            <FilterSidebar
-              categories={categories}
-              categoryCounts={categoryCounts}
-              sizes={sizes}
-              selectedCategories={selectedCategories}
-              selectedSizes={selectedSizes}
-              selectedPrice={selectedPrice}
-              handleCategoryChange={handleCategoryChange}
-              handleSizeChange={handleSizeChange}
-              handlePriceChange={handlePriceChange}
-              applyFilters={applyFilters}
-              clearFilters={clearFilters}
-            />
-          
-
+        <FilterSidebar
+          categories={categories}
+          categoryCounts={categoryCounts}
+          sizes={sizes}
+          selectedCategories={selectedCategories}
+          selectedSizes={selectedSizes}
+          selectedPrice={selectedPrice}
+          handleCategoryChange={handleCategoryChange}
+          handleSizeChange={handleSizeChange}
+          handlePriceChange={handlePriceChange}
+          applyFilters={applyFilters}
+          clearFilters={clearFilters}
+        />
         <Container className={styles.productContainer}>
           <Row>
             {filteredProducts.map(({ node }) => (
               <Col xs={12} sm={6} lg={3} key={node.id}>
-                <Card style={{ margin: "10px" }}>
+                <Card className={styles.cardStyle}>
                   <Card.Img
                     variant="top"
                     src={node.Image?.publicURL || "./data/images/default.jpeg"}
                     alt={node.OriginalName || "Default Image"}
-                    style={{ height: "200px", objectFit: "cover" }}
                     onClick={e => handleShowDetail(node, e)}
                     className={styles.clickableImage}
                   />
-                  <Card.Body style={{ minHeight: "210px" }}>
-                    <Card.Title>
-                      {node.NewName ? node.NewName : node.OriginalName}
-                    </Card.Title>
+                  <Card.Body className={styles.cardBodyStyle}>
+                    <Card.Title>{node.NewName ? node.NewName : node.OriginalName}</Card.Title>
                     <Card.Text>
                       {node.Description && node.Description.substring(0, 100)}
-                      {node.Description && node.Description.length > 100
-                        ? "..."
-                        : ""}
+                      {node.Description && node.Description.length > 100 ? "..." : ""}
                     </Card.Text>
                   </Card.Body>
                   <ListGroup className="list-group-flush">
-                    <ListGroup.Item>
-                      {node.OneSize
-                        ? "One Size Fits Most"
-                        : "Multiple Sizes Available"}
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                      Price:{" "}
-                      {node.OneSize
-                        ? `${formatCurrency(node._1SizePrice)}`
-                        : "Varies"}
-                    </ListGroup.Item>
+                    <ListGroup.Item>{node.OneSize ? "One Size Fits Most" : "Multiple Sizes Available"}</ListGroup.Item>
+                    <ListGroup.Item>Price: {node.OneSize ? `${formatCurrency(node._1SizePrice)}` : "Varies"}</ListGroup.Item>
                   </ListGroup>
                   <Card.Body>
-                    <Card.Link
-                      href="#"
-                      onClick={e => handleShowDetail(node, e)}
-                    >
-                      Show Details
-                    </Card.Link>
+                    <Card.Link href="#" onClick={e => handleShowDetail(node, e)}>Show Details</Card.Link>
                   </Card.Body>
                 </Card>
               </Col>
@@ -300,7 +276,7 @@ const ProductListing = () => {
           </Row>
         </Container>
       </div>
-
+  
       <ProductDetail
         product={selectedProduct}
         show={showDetail}

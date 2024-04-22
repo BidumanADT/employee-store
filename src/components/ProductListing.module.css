@@ -105,6 +105,20 @@
   display: none;
 }
 
+/* Styles for formatting the cards */
+.cardStyle {
+  margin: 10px;
+}
+
+.clickableImage {
+  height: 200px;
+  object-fit: cover;
+}
+
+.cardBodyStyle {
+  min-height: 210px;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .filterSidebar, .sidebarAndListing {
