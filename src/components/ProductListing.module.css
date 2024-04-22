@@ -119,6 +119,15 @@
   min-height: 210px;
 }
 
+.cardBody {
+  padding: 0.375rem 0.75rem; /* Typical Bootstrap padding for buttons */
+  font-size: 1rem; /* Matches typical link size */
+  line-height: 1.5;
+  text-align: center;
+  display: block; /* Ensure it's a block to fit well */
+  width: 100%; /* Make the button full width to mimic the card link style */
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .filterSidebar, .sidebarAndListing {

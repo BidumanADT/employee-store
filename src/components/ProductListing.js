@@ -64,7 +64,6 @@ const ProductListing = () => {
     }
   `)
 
-  const products = data.allInventoryJson.edges
   const sizeOrder = [
     "One Size",
     "XS",
@@ -122,7 +121,7 @@ const ProductListing = () => {
     setSizes(sizeOrder.filter(s => fetchedSizes.has(s))) // Ensure sizes are set in the correct order
     setFilteredProducts(data.allInventoryJson.edges)
     setCategoryCounts(categoryCounts)
-  }, [data])
+  }, [])
 
   // Function to track which categories are selected in the filter products sidebar
   const handleCategoryChange = (category, isChecked) => {
@@ -268,7 +267,7 @@ const ProductListing = () => {
                     <ListGroup.Item>Price: {node.OneSize ? `${formatCurrency(node._1SizePrice)}` : "Varies"}</ListGroup.Item>
                   </ListGroup>
                   <Card.Body>
-                    <Card.Link href="#" onClick={e => handleShowDetail(node, e)}>Show Details</Card.Link>
+                  <Button variant="outline-success" onClick={e => handleShowDetail(node, e)}>Show Details</Button>
                   </Card.Body>
                 </Card>
               </Col>
