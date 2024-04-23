@@ -12,8 +12,8 @@
   font-size: 1.2em; /* Larger font size */
   color: #333; /* Dark grey color */
   margin-bottom: 10px; /* Reduced space below the header for more compact look */
-  border-bottom: 2px solid #eee; /* Light grey bottom border */
-  padding: 5px 0; /* Space between text and border */
+  border-bottom: 1px solid #ccc; /* Light grey bottom border */
+  padding: 10px; /* Space between text and border */
   cursor: pointer; /* Indicates this is clickable */
   display: flex;
   justify-content: space-between; /* Ensures the arrow is aligned to the right */
@@ -21,7 +21,7 @@
 }
 
 .filterHeader:hover {
-  background-color: #e9e9e9; /* Light grey background on hover for more interactivity */
+  background-color: #f8f9fa; /* Light grey background on hover for more interactivity */
 }
 
 /* Styling for each filter option */
@@ -77,6 +77,12 @@
 
 .clearButton:hover {
   background-color: #c82333; /* Darker red background */
+}
+
+/* Styles for SVG icons */
+.icon {
+  margin-left: 5px;
+  vertical-align: middle; /* Aligns the icon with the text */
 }
 
 /* Responsive adjustments */

@@ -20,6 +20,18 @@ const FilterSidebar = ({
   const [showPrices, setShowPrices] = useState(false);
   const [showSizes, setShowSizes] = useState(false);
 
+  const CollapseIcon = (
+    <svg className={styles.icon} viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+      <path fillRule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+    </svg>
+  );
+
+  const ExpandIcon = (
+    <svg className={styles.icon} viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+      <path fillRule="evenodd" d="M1.646 11.354a.5.5 0 0 1 .708 0L8 5.707l5.646 5.647a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1-.708 0l-6 6a.5.5 0 0 1 0 .708z"/>
+    </svg>
+  );
+
   // Price filter options
   const priceFilters = ["Under $15.00", "$25.00 or less", "$50.00 or less"]
 
@@ -28,7 +40,7 @@ const FilterSidebar = ({
       <p>Filter by:</p>
       {/* Categories section */}
       <h5 className={styles.filterHeader} onClick={() => setShowCategories(!showCategories)}>
-        Category {showCategories ? '▲' : '▼'}
+        Category {showCategories ? CollapseIcon : ExpandIcon}
       </h5>
       {showCategories && categories.map(category => (
         <div key={category} className={styles.filterOption}>
@@ -49,7 +61,7 @@ const FilterSidebar = ({
 
       {/* Price section */}
       <h5 className={styles.filterHeader} onClick={() => setShowPrices(!showPrices)}>
-        Price {showPrices ? '▲' : '▼'}
+        Price {showPrices ? CollapseIcon : ExpandIcon}
       </h5>
       {showPrices && priceFilters.map((priceFilter, index) => (
         <div key={index} className={styles.filterOption}>
@@ -68,7 +80,7 @@ const FilterSidebar = ({
 
       {/* Sizes section */}
       <h5 className={styles.filterHeader} onClick={() => setShowSizes(!showSizes)}>
-        Sizes {showSizes ? '▲' : '▼'}
+        Sizes {showSizes ? CollapseIcon : ExpandIcon}
       </h5>
       {showSizes && sizes.map(size => (
         <div key={size} className={styles.filterOption}>
