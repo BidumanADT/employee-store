@@ -8,6 +8,8 @@ import * as styles from "./ProductListing.module.css"
 import ProductDetail from "./ProductDetail"
 import Footer from "./Footer"
 import { formatCurrency } from "./utils"
+import { useCart } from "./CartContext"; 
+
 
 // conditional rendering for a listing of all products
 const ProductListing = () => {
@@ -20,6 +22,8 @@ const ProductListing = () => {
   const [sizes, setSizes] = useState([])
   const [selectedSizes, setSelectedSizes] = useState([])
   const [selectedPrice, setSelectedPrice] = useState([])
+
+  const { addToCart } = useCart();
 
   // pull all data from GraphQL backend
   const data = useStaticQuery(graphql`
@@ -220,6 +224,16 @@ const ProductListing = () => {
     setShowDetail(true) // Show the modal
   }
 
+  const handleAddToCart = (product) => {
+    const newItem = {
+      name: product.NewName || product.OriginalName,
+      price: product._1SizePrice || product.XsPrice || 0, // Example logic to pick a price
+      size: product.OneSize ? 'One Size' : sizes[0], // Default to first size if multiple
+      quantity: 1 // Default quantity
+    };
+    addToCart(newItem);
+  };
+
   return (
     <div className={styles.mainContent}>
       <div className={styles.welcomeSection}>
@@ -268,6 +282,7 @@ const ProductListing = () => {
                   </ListGroup>
                   <Card.Body>
                   <Button variant="outline-success" onClick={e => handleShowDetail(node, e)}>Show Details</Button>
+                  <Button variant="outline-primary" onClick={() => handleAddToCart(node)}>Add To Cart</Button>
                   </Card.Body>
                 </Card>
               </Col>

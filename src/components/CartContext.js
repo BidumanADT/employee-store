@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { getCart, addToCart as persistAddToCart, updateCartItem as persistUpdateCartItem, removeCartItem as persistRemoveCartItem, clearCart as persistClearCart } from './cartUtils'; // Assuming cartUtils.js contains the previous functions
+import { getCart, addToCart as persistAddToCart, updateCartItem as persistUpdateCartItem, removeCartItem as persistRemoveCartItem, clearCart as persistClearCart } from './cartUtils'; 
 
 const CartContext = createContext();
 
