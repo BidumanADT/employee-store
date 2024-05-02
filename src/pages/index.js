@@ -1,4 +1,5 @@
 import React from "react"
+import Layout from "../components/layout"
 // import Slider from "react-slick"
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
@@ -18,14 +19,16 @@ import ProductListing from "../components/ProductListing"
 const ProductPage = () => {
   return (
     <>
-      <div>
-        {/* <Slider {...settings}>
+      <Layout>
+        <div>
+          {/* <Slider {...settings}>
           <CarouselItem />
         </Slider> */}
-        <ErrorBoundary>
-          <ProductListing />
-        </ErrorBoundary>
-      </div>
+          <ErrorBoundary>
+            <ProductListing />
+          </ErrorBoundary>
+        </div>
+      </Layout>
     </>
   )
 }

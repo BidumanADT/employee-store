@@ -8,6 +8,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import './src/components/ProductListing.module.css';
 import React from 'react';
+import Layout from './src/components/layout';
 import { CartProvider } from './src/components/CartContext'; // Update the path to where your CartContext is defined
 
 export const wrapRootElement = ({ element }) => (
@@ -15,3 +16,7 @@ export const wrapRootElement = ({ element }) => (
         {element}
     </CartProvider>
 );
+
+export const wrapPageElement = ({ element, props }) => {
+    return <Layout {...props}>{element}</Layout>;
+};
