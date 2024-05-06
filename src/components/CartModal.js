@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { Modal, Button, ListGroup, Form } from "react-bootstrap"
 import { useCart } from "./CartContext"
+import * as styles from './CartModal.module.css';
 
 const CartModal = ({ show, onHide }) => {
   const { cart, clearCart, removeCartItem, updateCartItem } = useCart() // Use the hook to access cart
@@ -29,13 +30,17 @@ const CartModal = ({ show, onHide }) => {
 
   // Function to handle the submission of a new quantity from the input
   const handleQuantitySubmit = (name, size) => {
-    const key = `${name}-${size}`
-    const newQuantity = parseInt(inputValues[key], 10)
-    if (newQuantity >= 1 && newQuantity <= 999) {
-      // Validate quantity range
-      updateCartItem({ name, size, quantity: newQuantity })
+    const key = `${name}-${size}`;
+    const newQuantity = parseInt(inputValues[key], 10);
+
+    if (newQuantity === 0) {
+      // If quantity is zero, remove the item
+      handleRemoveItem(name, size);
+    } else if (newQuantity >= 1 && newQuantity <= 999) {
+      // Update with the new quantity if within valid range
+      updateCartItem({ name, size, quantity: newQuantity });
     }
-  }
+  };
 
   // Handle quantity changes for the dropdown and input
   const handleQuantityChange = (name, size, quantity) => {
@@ -111,25 +116,21 @@ const CartModal = ({ show, onHide }) => {
       </Modal.Header>
       <Modal.Body>
         <ListGroup>
-          {cart.map(
-            (
-              item // Use 'cart' directly as defined in the context provider
-            ) => (
-              <ListGroup.Item key={`${item.name}-${item.size}`}>
-                {item.name} - {item.size} - Qty: {renderQuantityField(item)} - $
-                {item.price.toFixed(2)}
-                <Button
-                  variant="outline-danger"
-                  size="sm"
-                  onClick={() => handleRemoveItem(item.name, item.size)}
-                  style={{ float: "right", marginLeft: "10px" }}
-                >
-                  Remove
-                </Button>
-              </ListGroup.Item>
-            )
-          )}
-          {cart.length > 0 && ( // Only show subtotal if there are items in the cart
+          {cart.map(item => (
+            <ListGroup.Item key={`${item.name}-${item.size}`} className={styles.listItem}>
+              {item.name} - {item.size} - Qty: {renderQuantityField(item)} - $
+              {item.price.toFixed(2)}
+              <Button
+                variant="outline-danger"
+                size="sm"
+                onClick={() => handleRemoveItem(item.name, item.size)}
+                className={styles.removeButton}
+              >
+                Remove
+              </Button>
+            </ListGroup.Item>
+          ))}
+          {cart.length > 0 && (
             <ListGroup.Item>
               <strong>Subtotal:</strong> ${calculateSubtotal()}
             </ListGroup.Item>
@@ -145,7 +146,7 @@ const CartModal = ({ show, onHide }) => {
         </Button>
       </Modal.Footer>
     </Modal>
-  )
-}
+  );
+};
 
 export default CartModal

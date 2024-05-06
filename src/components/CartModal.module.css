@@ -1,0 +1,20 @@
+.removeButton {
+    float: right;
+    margin-left: 10px;
+  }
+  
+  .quantityInput {
+    width: auto;
+    display: inline-block;
+    margin-right: 10px;
+  }
+  
+  .updateButton {
+    margin-right: 10px;
+  }
+  
+  .listItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
