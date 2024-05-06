@@ -34,7 +34,6 @@ const CartModal = ({ show, onHide }) => {
     if (newQuantity >= 1 && newQuantity <= 999) {
       // Validate quantity range
       updateCartItem({ name, size, quantity: newQuantity })
-      setEditQuantities({ ...editQuantities, [key]: undefined }) // Revert to dropdown
     }
   }
 
@@ -47,7 +46,6 @@ const CartModal = ({ show, onHide }) => {
       setEditQuantities({ ...editQuantities, [key]: true })
     } else {
       updateCartItem({ name, size, quantity: parseInt(quantity, 10) })
-      setEditQuantities({ ...editQuantities, [key]: undefined })
     }
   }
 
