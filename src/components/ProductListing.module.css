@@ -130,6 +130,19 @@
   width: 100%; /* Make the button full width to mimic the card link style */
 }
 
+/* Styles for card body button group */
+.cardButtonGroup {
+  display: flex;
+  justify-content: space-between; /* Adjust as necessary for your layout */
+  padding: 0.375rem; /* Adjust padding to fit better within the card */
+}
+
+.cardButton {
+  flex: 1 1 50%; /* Each button takes half of the card width */
+  margin: 2px; /* Small margin for spacing */
+}
+
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .filterSidebar, .sidebarAndListing {
@@ -178,6 +191,16 @@
 
   .clickableImage:hover {
     opacity: 0.8; /* Maintain visual feedback on hover */
+  }
+
+  /* Styling for card button group */
+  .cardButtonGroup {
+    flex-direction: column; /* Stack buttons vertically on smaller screens */
+  }
+  
+  .cardButton {
+    width: 100%; /* Full width buttons on small screens */
+    margin-bottom: 5px; /* More pronounced margin for stacked buttons */
   }
 
 }

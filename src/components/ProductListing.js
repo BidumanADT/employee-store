@@ -8,8 +8,7 @@ import * as styles from "./ProductListing.module.css"
 import ProductDetail from "./ProductDetail"
 import Footer from "./Footer"
 import { formatCurrency } from "./utils"
-import { useCart } from "./CartContext"; 
-
+import { useCart } from "./CartContext"
 
 // conditional rendering for a listing of all products
 const ProductListing = () => {
@@ -23,7 +22,7 @@ const ProductListing = () => {
   const [selectedSizes, setSelectedSizes] = useState([])
   const [selectedPrice, setSelectedPrice] = useState([])
 
-  const { addToCart } = useCart();
+  const { addToCart } = useCart()
 
   // pull all data from GraphQL backend
   const data = useStaticQuery(graphql`
@@ -224,15 +223,15 @@ const ProductListing = () => {
     setShowDetail(true) // Show the modal
   }
 
-  const handleAddToCart = (product) => {
+  const handleAddToCart = product => {
     const newItem = {
       name: product.NewName || product.OriginalName,
       price: product._1SizePrice || product.XsPrice || 0, // Example logic to pick a price
-      size: product.OneSize ? 'One Size' : sizes[0], // Default to first size if multiple
-      quantity: 1 // Default quantity
-    };
-    addToCart(newItem);
-  };
+      size: product.OneSize ? "One Size" : sizes[0], // Default to first size if multiple
+      quantity: 1, // Default quantity
+    }
+    addToCart(newItem)
+  }
 
   return (
     <div className={styles.mainContent}>
@@ -240,7 +239,8 @@ const ProductListing = () => {
         <h2>Welcome to the Company Store!</h2>
         <h4>Explore our latest products and offers.</h4>
         <p>
-          Qui irure amet amet laboris sint anim aliquip consectetur sint ipsum...
+          Qui irure amet amet laboris sint anim aliquip consectetur sint
+          ipsum...
         </p>
       </div>
       <div className={styles.sidebarAndListing}>
@@ -270,19 +270,46 @@ const ProductListing = () => {
                     className={styles.clickableImage}
                   />
                   <Card.Body className={styles.cardBodyStyle}>
-                    <Card.Title>{node.NewName ? node.NewName : node.OriginalName}</Card.Title>
+                    <Card.Title>
+                      {node.NewName ? node.NewName : node.OriginalName}
+                    </Card.Title>
                     <Card.Text>
                       {node.Description && node.Description.substring(0, 100)}
-                      {node.Description && node.Description.length > 100 ? "..." : ""}
+                      {node.Description && node.Description.length > 100
+                        ? "..."
+                        : ""}
                     </Card.Text>
                   </Card.Body>
                   <ListGroup className="list-group-flush">
-                    <ListGroup.Item>{node.OneSize ? "One Size Fits Most" : "Multiple Sizes Available"}</ListGroup.Item>
-                    <ListGroup.Item>Price: {node.OneSize ? `${formatCurrency(node._1SizePrice)}` : "Varies"}</ListGroup.Item>
+                    <ListGroup.Item>
+                      {node.OneSize
+                        ? "One Size Fits Most"
+                        : "Multiple Sizes Available"}
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      Price:{" "}
+                      {node.OneSize
+                        ? `${formatCurrency(node._1SizePrice)}`
+                        : "Varies"}
+                    </ListGroup.Item>
                   </ListGroup>
-                  <Card.Body>
-                  <Button variant="outline-success" onClick={e => handleShowDetail(node, e)}>Show Details</Button>
-                  <Button variant="outline-primary" onClick={() => handleAddToCart(node)}>Add To Cart</Button>
+                  <Card.Body className={styles.cardButtonGroup}>
+                    <Button
+                      variant="outline-success"
+                      size="sm"
+                      onClick={e => handleShowDetail(node, e)}
+                      className={styles.cardButton}
+                    >
+                      Show Details
+                    </Button>
+                    <Button
+                      variant="outline-primary"
+                      size="sm"
+                      onClick={() => handleAddToCart(node)}
+                      className={styles.cardButton}
+                    >
+                      Add To Cart
+                    </Button>
                   </Card.Body>
                 </Card>
               </Col>
@@ -290,7 +317,7 @@ const ProductListing = () => {
           </Row>
         </Container>
       </div>
-  
+
       <ProductDetail
         product={selectedProduct}
         show={showDetail}
