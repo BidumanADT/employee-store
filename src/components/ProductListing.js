@@ -6,6 +6,7 @@ import { Container, Row, Col, Button } from "react-bootstrap"
 import ListGroup from "react-bootstrap/ListGroup"
 import * as styles from "./ProductListing.module.css"
 import ProductDetail from "./ProductDetail"
+import AddToCartModal from "./AddToCartModal"
 import Footer from "./Footer"
 import { formatCurrency } from "./utils"
 import { useCart } from "./CartContext"
@@ -14,6 +15,7 @@ import { useCart } from "./CartContext"
 const ProductListing = () => {
   const [showDetail, setShowDetail] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState(null)
+  const [showAddToCart, setShowAddToCart] = useState(false);
   const [categories, setCategories] = useState([])
   const [selectedCategories, setSelectedCategories] = useState([])
   const [filteredProducts, setFilteredProducts] = useState([])
@@ -223,15 +225,11 @@ const ProductListing = () => {
     setShowDetail(true) // Show the modal
   }
 
+  // Function to handle launching the add to cart modal
   const handleAddToCart = product => {
-    const newItem = {
-      name: product.NewName || product.OriginalName,
-      price: product._1SizePrice || product.XsPrice || 0, // Example logic to pick a price
-      size: product.OneSize ? "One Size" : sizes[0], // Default to first size if multiple
-      quantity: 1, // Default quantity
-    }
-    addToCart(newItem)
-  }
+    setSelectedProduct(product);  // Set selected product for the modal
+    setShowAddToCart(true);  // Open the AddToCartModal
+  };
 
   return (
     <div className={styles.mainContent}>
@@ -322,6 +320,11 @@ const ProductListing = () => {
         product={selectedProduct}
         show={showDetail}
         onHide={() => setShowDetail(false)}
+      />
+      <AddToCartModal
+        product={selectedProduct}
+        show={showAddToCart}
+        onHide={() => setShowAddToCart(false)}
       />
       <Footer />
     </div>

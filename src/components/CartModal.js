@@ -118,8 +118,8 @@ const CartModal = ({ show, onHide }) => {
         <ListGroup>
           {cart.map(item => (
             <ListGroup.Item key={`${item.name}-${item.size}`} className={styles.listItem}>
-              {item.name} - {item.size} - Qty: {renderQuantityField(item)} - $
-              {item.price.toFixed(2)}
+              {item.name} - {item.size} | Qty: {renderQuantityField(item)} | $
+              {item.price ? item.price.toFixed(2) : "N/A"}
               <Button
                 variant="outline-danger"
                 size="sm"
