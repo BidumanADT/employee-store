@@ -141,7 +141,7 @@ const CartModal = ({ show, onHide }) => {
         <Button variant="outline-danger" onClick={handleClearCart}>
           Clear Cart
         </Button>
-        <Button variant="secondary" onClick={onHide}>
+        <Button variant="outline-secondary" onClick={onHide}>
           Close
         </Button>
       </Modal.Footer>

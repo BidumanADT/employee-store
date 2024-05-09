@@ -9,7 +9,6 @@ import ProductDetail from "./ProductDetail"
 import AddToCartModal from "./AddToCartModal"
 import Footer from "./Footer"
 import { formatCurrency } from "./utils"
-import { useCart } from "./CartContext"
 
 // conditional rendering for a listing of all products
 const ProductListing = () => {
@@ -23,8 +22,6 @@ const ProductListing = () => {
   const [sizes, setSizes] = useState([])
   const [selectedSizes, setSelectedSizes] = useState([])
   const [selectedPrice, setSelectedPrice] = useState([])
-
-  const { addToCart } = useCart()
 
   // pull all data from GraphQL backend
   const data = useStaticQuery(graphql`
