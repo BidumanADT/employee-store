@@ -66,7 +66,7 @@ const AddToCartModal = ({ product, show, onHide }) => {
   };
 
   return (
-    <Modal show={show} onHide={onHide} centered>
+    <Modal show={show} onHide={onHide} centered size="sm">
       <Modal.Header closeButton>
         <Modal.Title>Add to Cart</Modal.Title>
       </Modal.Header>
@@ -87,10 +87,10 @@ const AddToCartModal = ({ product, show, onHide }) => {
         </Container>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="primary" onClick={handleAddToCart}>
+        <Button variant="outline-primary" onClick={handleAddToCart}>
           Add to Cart
         </Button>
-        <Button onClick={onHide}>Close</Button>
+        <Button variant="outline-secondary" onClick={onHide}>Close</Button>
       </Modal.Footer>
     </Modal>
   );
