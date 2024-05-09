@@ -1,18 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, Container } from "react-bootstrap";
 import { useCart } from "./CartContext";
 import { formatCurrency } from "./utils";
 
 const AddToCartModal = ({ product, show, onHide }) => {
   const { addToCart } = useCart();
-  const [selectedSize, setSelectedSize] = useState(product?.OneSize ? "OneSize" : "XS"); // Default to "XS" for multi-size products
+  const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
 
-  const handleAddToCart = () => {
-    const priceKey = selectedSize === "OneSize" ? "_1SizePrice" : `${selectedSize.charAt(0).toUpperCase()}${selectedSize.slice(1).toLowerCase()}Price`;
-    const price = product[priceKey];
+  // Update the default size as soon as the product data is available or changes
+  useEffect(() => {
+    if (product) {
+      if (product.OneSize) {
+        setSelectedSize("One Size");
+      } else {
+        const sizes = ["Xs", "Sm", "Md", "Lg", "Xl", "_2x", "_3x", "_4x", "_6x"];
+        const availableSize = sizes.find(size => product[`${size}Inv`] > 0);
+        if (availableSize) {
+          setSelectedSize(availableSize.replace('_', '').toUpperCase());
+        }
+      }
+    }
+  }, [product]); // Dependency array to trigger re-evaluation when product changes
 
-    console.log(`Selected Size: ${selectedSize}, Price Key: ${priceKey}, Price: ${price}`); // Debugging output
+  const handleAddToCart = () => {
+    const priceKey = selectedSize === "One Size" ? "_1SizePrice" : `${selectedSize.charAt(0).toUpperCase()}${selectedSize.slice(1).toLowerCase()}Price`;
+    const price = product[priceKey];
 
     if (price && quantity > 0) {
       addToCart({
@@ -31,21 +44,23 @@ const AddToCartModal = ({ product, show, onHide }) => {
     if (!product) return null;
 
     if (product.OneSize) {
-      return <option value="OneSize">One Size - {formatCurrency(product._1SizePrice)}</option>;
+      return <option value="One Size">One Size - {formatCurrency(product._1SizePrice)}</option>;
     } else {
       const sizes = ["Xs", "Sm", "Md", "Lg", "Xl", "_2x", "_3x", "_4x", "_6x"];
       return sizes.map(size => {
-        const sizeKey = size.replace('_', '').toLowerCase(); // Ensure correct format for key
         const priceKey = `${size}Price`;
         const inventoryKey = `${size}Inv`;
         const price = product[priceKey];
         const inventory = product[inventoryKey];
 
-        return inventory > 0 ? (
-          <option key={size} value={sizeKey.toUpperCase()}>
-            {sizeKey.toUpperCase()} | {formatCurrency(price)} | {inventory} available
-          </option>
-        ) : null;
+        if (inventory > 0) {
+          return (
+            <option key={size} value={size.replace('_', '').toUpperCase()}>
+              {size.replace('_', '').toUpperCase()} - {formatCurrency(price)} - {inventory} available
+            </option>
+          );
+        }
+        return null;
       });
     }
   };
