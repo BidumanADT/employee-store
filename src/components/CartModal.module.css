@@ -18,3 +18,23 @@
     align-items: center;
     justify-content: space-between;
   }
+
+  .textInput {
+    width: 60px; /* Adjust width as needed */
+    padding: 0.375rem 0.75rem; /* Bootstrap's default padding for form controls */
+    border: 1px solid #ced4da; /* Bootstrap's default border color */
+    border-radius: 0.25rem; /* Bootstrap's default border-radius */
+  }
+  
+  .selectInput {
+    width: 100px; /* Adjust width as needed */
+    padding: 0.375rem 0.75rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    background-color: white; /* Ensures the background is white */
+  }
+
+  .subtotalRight {
+    text-align: right;
+    font-weight: bold;
+  }
