@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { Modal, Button, ListGroup, Form } from "react-bootstrap"
 import { useCart } from "./CartContext"
-import * as styles from './CartModal.module.css';
+import * as styles from "./CartModal.module.css"
 
 const CartModal = ({ show, onHide }) => {
   const { cart, clearCart, removeCartItem, updateCartItem } = useCart() // Use the hook to access cart
@@ -30,17 +30,17 @@ const CartModal = ({ show, onHide }) => {
 
   // Function to handle the submission of a new quantity from the input
   const handleQuantitySubmit = (name, size) => {
-    const key = `${name}-${size}`;
-    const newQuantity = parseInt(inputValues[key], 10);
+    const key = `${name}-${size}`
+    const newQuantity = parseInt(inputValues[key], 10)
 
     if (newQuantity === 0) {
       // If quantity is zero, remove the item
-      handleRemoveItem(name, size);
+      handleRemoveItem(name, size)
     } else if (newQuantity >= 1 && newQuantity <= 999) {
       // Update with the new quantity if within valid range
-      updateCartItem({ name, size, quantity: newQuantity });
+      updateCartItem({ name, size, quantity: newQuantity })
     }
-  };
+  }
 
   // Handle quantity changes for the dropdown and input
   const handleQuantityChange = (name, size, quantity) => {
@@ -58,6 +58,12 @@ const CartModal = ({ show, onHide }) => {
   const handleInputChange = (name, size, value) => {
     const key = `${name}-${size}`
     setInputValues({ ...inputValues, [key]: value })
+  }
+
+  // Function to make sizes more readable
+  const renderSizeDisplay = size => {
+    // Format size for display
+    return size.replace("_", "").toUpperCase()
   }
 
   // Render the quantity field
@@ -117,8 +123,12 @@ const CartModal = ({ show, onHide }) => {
       <Modal.Body>
         <ListGroup>
           {cart.map(item => (
-            <ListGroup.Item key={`${item.name}-${item.size}`} className={styles.listItem}>
-              {item.name} - {item.size} | Qty: {renderQuantityField(item)} | $
+            <ListGroup.Item
+              key={`${item.name}-${item.size}`}
+              className={styles.listItem}
+            >
+              {item.name} | {renderSizeDisplay(item.size)} | Qty:{" "}
+              {renderQuantityField(item)} | $
               {item.price ? item.price.toFixed(2) : "N/A"}
               <Button
                 variant="outline-danger"
@@ -146,7 +156,7 @@ const CartModal = ({ show, onHide }) => {
         </Button>
       </Modal.Footer>
     </Modal>
-  );
-};
+  )
+}
 
 export default CartModal
