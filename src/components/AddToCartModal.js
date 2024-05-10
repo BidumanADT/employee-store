@@ -17,7 +17,7 @@ const AddToCartModal = ({ product, show, onHide }) => {
         const sizes = ["Xs", "Sm", "Md", "Lg", "Xl", "_2x", "_3x", "_4x", "_6x"];
         const availableSize = sizes.find(size => product[`${size}Inv`] > 0);
         if (availableSize) {
-          setSelectedSize(availableSize.replace('_', '').toUpperCase());
+          setSelectedSize(availableSize);
         }
       }
     }
@@ -27,11 +27,13 @@ const AddToCartModal = ({ product, show, onHide }) => {
     const priceKey = selectedSize === "One Size" ? "_1SizePrice" : `${selectedSize.charAt(0).toUpperCase()}${selectedSize.slice(1).toLowerCase()}Price`;
     const price = product[priceKey];
 
+    console.log(`Selected Size: ${selectedSize}, Price Key: ${priceKey}, Price: ${price}`) // Debugging 
+
     if (price && quantity > 0) {
       addToCart({
         name: product.NewName || product.OriginalName,
         price,
-        size: selectedSize,
+        size: selectedSize.replace("_", "").toUpperCase(),
         quantity,
       });
       onHide(); // Close modal after adding to cart
