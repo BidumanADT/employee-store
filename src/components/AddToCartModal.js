@@ -8,32 +8,30 @@ const AddToCartModal = ({ product, show, onHide }) => {
   const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
 
-  // Update the default size as soon as the product data is available or changes
+  // Effect to set the default selected size based on availability
   useEffect(() => {
     if (product) {
-      if (product.OneSize) {
-        setSelectedSize("One Size");
-      } else {
-        const sizes = ["Xs", "Sm", "Md", "Lg", "Xl", "_2x", "_3x", "_4x", "_6x"];
-        const availableSize = sizes.find(size => product[`${size}Inv`] > 0);
-        if (availableSize) {
-          setSelectedSize(availableSize);
-        }
+      const sizes = ["Xs", "Sm", "Md", "Lg", "Xl", "_2x", "_3x", "_4x", "_6x"];
+      const availableSize = sizes.find(size => product[`${size}Inv`] > 0);
+      if (availableSize) {
+        setSelectedSize(availableSize);  // Keep the original key format for operations
+      } else if (product.OneSize) {
+        setSelectedSize("OneSize");  // Use "OneSize" for one-size products
       }
     }
-  }, [product]); // Dependency array to trigger re-evaluation when product changes
+  }, [product]);
 
   const handleAddToCart = () => {
-    const priceKey = selectedSize === "One Size" ? "_1SizePrice" : `${selectedSize.charAt(0).toUpperCase()}${selectedSize.slice(1).toLowerCase()}Price`;
+    const priceKey = selectedSize === "OneSize" ? "_1SizePrice" : `${selectedSize}Price`;
     const price = product[priceKey];
 
-    console.log(`Selected Size: ${selectedSize}, Price Key: ${priceKey}, Price: ${price}`) // Debugging 
+    console.log(`Selected Size: ${selectedSize}, Price Key: ${priceKey}, Price: ${price}`) // Debugging
 
     if (price && quantity > 0) {
       addToCart({
         name: product.NewName || product.OriginalName,
         price,
-        size: selectedSize.replace("_", "").toUpperCase(),
+        size: selectedSize,  // Send the size key directly as stored in product data
         quantity,
       });
       onHide(); // Close modal after adding to cart
@@ -42,29 +40,26 @@ const AddToCartModal = ({ product, show, onHide }) => {
     }
   };
 
+  // Render dropdown options with user-friendly format but use accurate data keys
   const renderSizeOptions = () => {
     if (!product) return null;
 
-    if (product.OneSize) {
-      return <option value="One Size">One Size - {formatCurrency(product._1SizePrice)}</option>;
-    } else {
-      const sizes = ["Xs", "Sm", "Md", "Lg", "Xl", "_2x", "_3x", "_4x", "_6x"];
-      return sizes.map(size => {
-        const priceKey = `${size}Price`;
-        const inventoryKey = `${size}Inv`;
-        const price = product[priceKey];
-        const inventory = product[inventoryKey];
-
-        if (inventory > 0) {
-          return (
-            <option key={size} value={size.replace('_', '').toUpperCase()}>
-              {size.replace('_', '').toUpperCase()} - {formatCurrency(price)} - {inventory} available
-            </option>
-          );
-        }
-        return null;
-      });
-    }
+    const sizes = ["Xs", "Sm", "Md", "Lg", "Xl", "_2x", "_3x", "_4x", "_6x"];
+    return product.OneSize ? (
+      <option value="OneSize">One Size - {formatCurrency(product._1SizePrice)}</option>
+    ) : sizes.map(size => {
+      const priceKey = `${size}Price`;
+      const inventoryKey = `${size}Inv`;
+      const price = product[priceKey];
+      const inventory = product[inventoryKey];
+      if (inventory > 0) {
+        const displaySize = size.replace('_', '').toUpperCase(); // Format for display
+        return (
+          <option key={size} value={size}>{`${displaySize} - ${formatCurrency(price)} - ${inventory} available`}</option>
+        );
+      }
+      return null;
+    });
   };
 
   return (
@@ -89,10 +84,8 @@ const AddToCartModal = ({ product, show, onHide }) => {
         </Container>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="outline-primary" onClick={handleAddToCart}>
-          Add to Cart
-        </Button>
-        <Button variant="outline-secondary" onClick={onHide}>Close</Button>
+        <Button variant="primary" onClick={handleAddToCart}>Add to Cart</Button>
+        <Button variant="secondary" onClick={onHide}>Close</Button>
       </Modal.Footer>
     </Modal>
   );
