@@ -1,0 +1,13 @@
+.checkoutPage {
+    padding: 20px;
+  }
+  
+  .checkoutActions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .table {
+    margin-top: 20px;
+  }
