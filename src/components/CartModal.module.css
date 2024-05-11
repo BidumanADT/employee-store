@@ -1,5 +1,5 @@
 .removeButton {
-    float: right;
+    float:right;
     margin-left: 10px;
   }
   
@@ -37,4 +37,8 @@
   .subtotalRight {
     text-align: right;
     font-weight: bold;
+  }
+
+  .centerText {
+    text-align: center;
   }

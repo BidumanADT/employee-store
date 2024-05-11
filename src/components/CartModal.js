@@ -103,11 +103,11 @@ const CartModal = ({ show, onHide }) => {
         <Table striped bordered hover size="sm">
           <thead>
             <tr>
-              <th>Product</th>
-              <th>Size</th>
-              <th>Quantity</th>
-              <th>Price</th>
-              <th>Remove</th>
+              <th class={styles.centerText}>Product</th>
+              <th class={styles.centerText}>Size</th>
+              <th class={styles.centerText}>Quantity</th>
+              <th class={styles.centerText}>Price</th>
+              <th class={styles.centerText}>Remove</th>
             </tr>
           </thead>
           <tbody>
@@ -139,6 +139,7 @@ const CartModal = ({ show, onHide }) => {
         </Table>
       </Modal.Body>
       <Modal.Footer>
+        <Button variant="outline-success" >Checkout</Button>
         <Button variant="outline-danger" onClick={handleClearCart}>Clear Cart</Button>
         <Button variant="outline-secondary" onClick={onHide}>Close</Button>
       </Modal.Footer>
