@@ -41,7 +41,7 @@ const CheckoutPage = ({ onReturnToCart }) => {
                     {cart.map(item => (
                         <tr key={`${item.name}-${item.size}`}>
                             <td>{item.name}</td>
-                            <td>{item.size.replace('_', '').toUppercase()}</td>
+                            <td>{item.size.replace('_', '').toUpperCase()}</td>
                             <td>
                                 <Button variant='light' onClick={()=> decrementQuantity(item)}>-</Button>
                                 {' '}{item.quantity}{' '}
@@ -64,3 +64,4 @@ const CheckoutPage = ({ onReturnToCart }) => {
         </div>
     )
 }
+export default CheckoutPage
