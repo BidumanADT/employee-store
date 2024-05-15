@@ -1,22 +1,15 @@
-/**
- * Implement Gatsby's Browser APIs in this file.
- *
- * See: https://www.gatsbyjs.com/docs/reference/config-files/gatsby-browser/
- */
-
-// You can delete this file if you're not using it
-import 'bootstrap/dist/css/bootstrap.min.css';
-// import './src/components/ProductListing.module.css';
-import React from 'react';
-import Layout from './src/components/layout';
-import { CartProvider } from './src/components/CartContext'; // Update the path to where your CartContext is defined
+import "bootstrap/dist/css/bootstrap.min.css"
+import React from "react"
+import Layout from "./src/components/layout"
+import { CartProvider } from "./src/components/CartContext"
+import { AppProvider } from "./src/components/AppContext"
 
 export const wrapRootElement = ({ element }) => (
-    <CartProvider>
-        {element}
-    </CartProvider>
-);
+  <AppProvider>
+    <CartProvider>{element}</CartProvider>
+  </AppProvider>
+)
 
 export const wrapPageElement = ({ element, props }) => {
-    return <Layout {...props}>{element}</Layout>;
-};
+  return <Layout {...props}>{element}</Layout>
+}
