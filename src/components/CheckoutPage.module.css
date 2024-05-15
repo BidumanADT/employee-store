@@ -11,3 +11,9 @@
   .table {
     margin-top: 20px;
   }
+
+  /* Thumbnail-ish image styling */
+  .thumbImage {
+    width: 50px;
+    height: auto;
+  }
