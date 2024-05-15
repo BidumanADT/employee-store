@@ -34,20 +34,20 @@ const CheckoutPage = () => {
     <div className={styles.checkoutPage}>
       <h2>Checkout</h2>
       <Table striped bordered hover>
-        <thread>
+        <thead>
           <tr>
-            <th>Product</th>
-            <th>Size</th>
-            <th>Quantity</th>
-            <th>Price</th>
-            <th>Total</th>
-            <th>Remove</th>
+            <th className={styles.tableProduct}>Product</th>
+            <th className={styles.tableSize}>Size</th>
+            <th className={styles.tableQuantity}>Quantity</th>
+            <th className={styles.tablePrice}>Price</th>
+            <th className={styles.tableTotal}>Total</th>
+            <th className={styles.tableRemove}>Remove</th>
           </tr>
-        </thread>
+        </thead>
         <tbody>
           {cart.map(item => (
             <tr key={`${item.name}-${item.size}`}>
-              <td>
+              <td className={styles.tableHeader}>
                 <img
                   className={styles.thumbImage}
                   src={item.image}
@@ -55,8 +55,8 @@ const CheckoutPage = () => {
                 />
                 {item.name}
               </td>
-              <td>{item.size.replace("_", "").toUpperCase()}</td>
-              <td>
+              <td className={styles.tableSize}>{item.size.replace("_", "").toUpperCase()}</td>
+              <td className={styles.tableQuantity}>
                 <Button variant="light" onClick={() => decrementQuantity(item)}>
                   -
                 </Button>{" "}
@@ -65,9 +65,9 @@ const CheckoutPage = () => {
                   +
                 </Button>
               </td>
-              <td>${item.price.toFixed(2)}</td>
-              <td>${(item.price * item.quantity).toFixed(2)}</td>
-              <td>
+              <td className={styles.tablePrice}>${item.price.toFixed(2)}</td>
+              <td className={styles.tableTotal}>${(item.price * item.quantity).toFixed(2)}</td>
+              <td className={styles.tableRemove}>
                 <Button
                   variant="outline-danger"
                   onClick={() => handleRemoveItem(item)}
