@@ -2,13 +2,14 @@ import React, { useState } from "react"
 import { Modal, Button, Table, Form } from "react-bootstrap"
 import { useCart } from "./CartContext"
 import * as styles from "./CartModal.module.css"
-import CheckoutPage from "./CheckoutPage"
+import { useAppContext } from "./AppContext"
 
 const CartModal = ({ show, onHide }) => {
   const { cart, clearCart, removeCartItem, updateCartItem } = useCart()
   const [editQuantities, setEditQuantities] = useState({})
   const [inputValues, setInputValues] = useState({})
-  const [showCheckout, setShowCheckout] = useState(false)
+  
+  const { showCheckout } = useAppContext();
 
   // Calculate the subtotal of the cart
   const calculateSubtotal = () => {
@@ -106,14 +107,10 @@ const CartModal = ({ show, onHide }) => {
     )
   }
 
-  // Function to handle sending cart to checkout page.
+  // Function to handle toggling of checkout page.
   const handleCheckout = () => {
-    setShowCheckout(true) 
-    onHide()
-  }
-
-  if (showCheckout) {
-    return <CheckoutPage onReturnToCart={() => setShowCheckout(false)} />
+    onHide();
+    showCheckout(); 
   }
 
   return (
