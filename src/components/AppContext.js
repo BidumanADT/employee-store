@@ -14,7 +14,7 @@ export const AppProvider = ({ children }) => {
 
   return (
     <AppContext.Provider
-      value={{ isCheckoutVisible, showCheckout, hideCheckout }}
+      value={{ isCheckoutVisible, setIsCheckoutVisible, showCheckout, hideCheckout }}
     >
       {children}
     </AppContext.Provider>

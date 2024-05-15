@@ -1,10 +1,12 @@
 import React from 'react'
 import { useCart } from './CartContext'
+import { useAppContext } from './AppContext'
 import { Button, Table } from 'react-bootstrap'
 import * as styles from './CheckoutPage.module.css'
 
 const CheckoutPage = ({ onReturnToCart }) => {
     const {cart, updateCartItem, removeCartItem } = useCart()
+    const { setIsCheckoutVisible } = useAppContext()
 
     // Functions to alter quantities
     const incrementQuantity = (item) => {
@@ -21,6 +23,11 @@ const CheckoutPage = ({ onReturnToCart }) => {
     // Function to remove item
     const handleRemoveItem = (item) => {
         removeCartItem(item.name, item.size)
+    }
+
+    // Function to handle navigating back to products page
+    const handleReturnToProducts = ()=> {
+        setIsCheckoutVisible(false)
     }
 
     return (
@@ -58,7 +65,7 @@ const CheckoutPage = ({ onReturnToCart }) => {
                 </tbody>
             </Table>
             <div className={styles.checkoutActions}>
-                <Button variant='outline-secondary' onClick={onReturnToCart}>Return to Cart</Button>
+                <Button variant='outline-secondary' onClick={handleReturnToProducts}>Back to Products</Button>
                 <Button variant='outline-success'>Confirm Checkout</Button> {/* Placeholder for checkout functionality */}
             </div>
         </div>
