@@ -106,9 +106,10 @@ const CartModal = ({ show, onHide }) => {
     )
   }
 
+  // Function to handle sending cart to checkout page.
   const handleCheckout = () => {
-    setShowCheckout(true) // Set to show CheckoutPage
-    onHide() // Optionally close the cart modal
+    setShowCheckout(true) 
+    onHide()
   }
 
   if (showCheckout) {
