@@ -1,34 +1,41 @@
-import React from "react"
-import { useCart } from "./CartContext"
-import { useAppContext } from "./AppContext"
-import { Button, Table } from "react-bootstrap"
-import * as styles from "./CheckoutPage.module.css"
+import React from "react";
+import { useCart } from "./CartContext"; // Importing useCart to manage cart operations
+import { useAppContext } from "./AppContext"; // Importing useAppContext to manage application-level state
+import { Button, Table } from "react-bootstrap"; // Importing components from react-bootstrap
+import * as styles from "./CheckoutPage.module.css"; // Importing CSS module for styling
 
 const CheckoutPage = () => {
-  const { cart, updateCartItem, removeCartItem } = useCart()
-  const { setIsCheckoutVisible } = useAppContext()
+  const { cart, updateCartItem, removeCartItem } = useCart(); // Destructuring methods from CartContext
+  const { setIsCheckoutVisible } = useAppContext(); // Method to toggle checkout visibility
 
-  // Functions to alter quantities
+  // Increment the quantity of an item
   const incrementQuantity = item => {
     if (item.quantity < 999) {
-      updateCartItem({ ...item, quantity: item.quantity + 1 })
+      updateCartItem({ ...item, quantity: item.quantity + 1 });
     }
-  }
+  };
+
+  // Decrement the quantity of an item
   const decrementQuantity = item => {
     if (item.quantity > 1) {
-      updateCartItem({ ...item, quantity: item.quantity - 1 })
+      updateCartItem({ ...item, quantity: item.quantity - 1 });
     }
-  }
+  };
 
-  // Function to remove item
+  // Remove an item from the cart
   const handleRemoveItem = item => {
-    removeCartItem(item.name, item.size)
-  }
+    removeCartItem(item.name, item.size);
+  };
 
-  // Function to handle navigating back to products page
+  // Toggle back to the product listing page
   const handleReturnToProducts = () => {
-    setIsCheckoutVisible(false)
-  }
+    setIsCheckoutVisible(false);
+  };
+
+  // Calculate the subtotal, tax, and grand total
+  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const tax = subtotal * 0.10;
+  const grandTotal = subtotal + tax;
 
   return (
     <div className={styles.checkoutPage}>
@@ -36,10 +43,10 @@ const CheckoutPage = () => {
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th className={styles.tableProduct}>Product</th>
+            <th className={styles.tableProductHeading}>Product</th>
             <th className={styles.tableSize}>Size</th>
             <th className={styles.tableQuantity}>Quantity</th>
-            <th className={styles.tablePrice}>Price</th>
+            <th className={styles.tablePrice}>Each</th>
             <th className={styles.tableTotal}>Total</th>
             <th className={styles.tableRemove}>Remove</th>
           </tr>
@@ -47,7 +54,7 @@ const CheckoutPage = () => {
         <tbody>
           {cart.map(item => (
             <tr key={`${item.name}-${item.size}`}>
-              <td className={styles.tableHeader}>
+              <td className={styles.tableProduct}>
                 <img
                   className={styles.thumbImage}
                   src={item.image}
@@ -77,16 +84,29 @@ const CheckoutPage = () => {
               </td>
             </tr>
           ))}
+          {/* Display the financial summary */}
+          <tr>
+            <td colSpan="4" className={styles.subtotalRight}>Sub-Total</td>
+            <td colSpan="2">${subtotal.toFixed(2)}</td>
+          </tr>
+          <tr>
+            <td colSpan="4" className={styles.subtotalRight}>Tax (10%)</td>
+            <td colSpan="2">${tax.toFixed(2)}</td>
+          </tr>
+          <tr>
+            <td colSpan="4" className={styles.subtotalRight}>Grand Total</td>
+            <td colSpan="2">${grandTotal.toFixed(2)}</td>
+          </tr>
         </tbody>
       </Table>
       <div className={styles.checkoutActions}>
         <Button variant="outline-secondary" onClick={handleReturnToProducts}>
           Back to Products
         </Button>
-        <Button variant="outline-success">Confirm Checkout</Button>{" "}
-        {/* Placeholder for checkout functionality */}
+        <Button variant="outline-success">Confirm Checkout</Button> {/* Placeholder for checkout functionality */}
       </div>
     </div>
-  )
-}
-export default CheckoutPage
+  );
+};
+
+export default CheckoutPage;

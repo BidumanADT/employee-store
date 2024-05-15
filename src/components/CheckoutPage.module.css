@@ -2,13 +2,13 @@
   width: 100%;
   padding: 20px;
   max-width: 1200px;
-  margin: auto;
+  margin: auto; /* Center the page content */
 }
 
 .checkoutActions {
   margin-top: 20px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* Space between buttons */
 }
 
 /* Styles for table formatting */
@@ -16,38 +16,51 @@
   margin-top: 20px;
 }
 
+.tableProductHeading {
+  width: 35%;
+  text-align: center; /* Centering header text */
+}
+
 .tableProduct {
   width: 35%;
-  text-align: center;
+  vertical-align: middle; /* Vertically centering table cells */
 }
 
 .tableSize, .tableQuantity, .tablePrice, .tableTotal, .tableRemove {
   text-align: center;
+  vertical-align: middle;
 }
 
 /* Thumbnail image styling */
 .thumbImage {
-  width: 100px; /* Default width */
-  height: auto; /* Maintain aspect ratio */
+  width: 100px;
+  height: auto;
   margin-right: 10px;
+  float: left;
+  vertical-align: middle; /* Align image vertically in the middle of the cell */
 }
 
-/* Responsive adjustments */
+/* Styling for the financial summary */
+.subtotalRight {
+  text-align: right; /* Align text to the right */
+  font-weight: bold; /* Make text bold */
+}
+
 @media (max-width: 768px) {
   .thumbImage {
-    width: 50px; /* Smaller width on smaller screens */
+    width: 50px; /* Smaller image on smaller screens */
   }
-  .tableProduct {
-    width: 50%; /* Adjust table column width for smaller screens */
+  .tableProductHeading, .tableProduct {
+    width: 50%; /* Adjust width for smaller screens */
   }
 }
 
 @media (max-width: 480px) {
   .thumbImage {
-    width: 30px; /* Even smaller on very small screens */
+    width: 30px; /* Even smaller image on very small screens */
   }
-  .tableProduct {
-    width: 60%; /* More space for product column on very small screens */
+  .tableProductHeading, .tableProduct {
+    width: 60%; /* Adjust width for very small screens */
   }
   .checkoutActions {
     flex-direction: column; /* Stack buttons vertically on small screens */
