@@ -1,7 +1,7 @@
 import React from "react";
 import { useCart } from "./CartContext"; // Importing useCart to manage cart operations
 import { useAppContext } from "./AppContext"; // Importing useAppContext to manage application-level state
-import { Button, Table } from "react-bootstrap"; // Importing components from react-bootstrap
+import { Button, Table, Form, Row, Col, FormGroup, FormLabel, FormControl } from "react-bootstrap"; // Importing components from react-bootstrap
 import * as styles from "./CheckoutPage.module.css"; // Importing CSS module for styling
 
 const CheckoutPage = () => {
@@ -36,6 +36,23 @@ const CheckoutPage = () => {
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const tax = subtotal * 0.10;
   const grandTotal = subtotal + tax;
+
+  // Initialize employee data form state
+  const [formData, setFormData] = React.useState({
+    firstName: '',
+    lastName: '',
+    employeeNumber: '',
+    employeeEmail: ''
+  });
+
+  // Handle employee data form input changes
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
 
   return (
     <div className={styles.checkoutPage}>
@@ -99,6 +116,40 @@ const CheckoutPage = () => {
           </tr>
         </tbody>
       </Table>
+      {/* Employee Information Form */}
+      <div className={styles.employeeInfoForm}>
+        <h4>Employee Information</h4>
+        <Form>
+          <Row>
+            <Col md={6}>
+              <FormGroup>
+                <FormLabel>First Name</FormLabel>
+                <FormControl type="text" name="firstName" value={formData.firstName} onChange={handleInputChange} />
+              </FormGroup>
+            </Col>
+            <Col md={6}>
+              <FormGroup>
+                <FormLabel>Last Name</FormLabel>
+                <FormControl type="text" name="lastName" value={formData.lastName} onChange={handleInputChange} />
+              </FormGroup>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={6}>
+              <FormGroup>
+                <FormLabel>Employee Number</FormLabel>
+                <FormControl type="text" name="employeeNumber" value={formData.employeeNumber} onChange={handleInputChange} />
+              </FormGroup>
+            </Col>
+            <Col md={6}>
+              <FormGroup>
+                <FormLabel>Employee Email</FormLabel>
+                <FormControl type="email" name="employeeEmail" value={formData.employeeEmail} onChange={handleInputChange} />
+              </FormGroup>
+            </Col>
+          </Row>
+        </Form>
+      </div>
       <div className={styles.checkoutActions}>
         <Button variant="outline-secondary" onClick={handleReturnToProducts}>
           Back to Products

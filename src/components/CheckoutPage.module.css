@@ -46,6 +46,28 @@
   font-weight: bold; /* Make text bold */
 }
 
+/* Styling for employee info form */
+.employeeInfoForm {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.employeeInfoForm h4 {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+/* Styling adjustments for form inputs for consistency */
+.FormLabel {
+  font-weight: bold;
+}
+
+.FormControl {
+  margin-bottom: 15px; /* Add space below each input */
+}
+
 @media (max-width: 768px) {
   .thumbImage {
     width: 50px; /* Smaller image on smaller screens */
@@ -65,5 +87,17 @@
   .checkoutActions {
     flex-direction: column; /* Stack buttons vertically on small screens */
     align-items: center;
+  }
+  /* Employee form responsive adjustments */
+  .FormLabel,
+  .FormControl {
+    width: 100%; /* Full width for smaller screens */
+  }
+  /* Adjust form grid layout for mobile devices */
+  .Row {
+    flex-direction: column;
+  }
+  .Col {
+    width: 100%; /* Full width for smaller screens, stacking inputs vertically */
   }
 }
