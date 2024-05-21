@@ -11,6 +11,20 @@ const CartModal = ({ show, onHide }) => {
 
   const { showCheckout } = useAppContext()
 
+  // Size map for full names
+  const sizeMap = {
+    Xs: "Extra Small",
+    Sm: "Small",
+    Md: "Medium",
+    Lg: "Large",
+    Xl: "Extra Large",
+    _2x: "2X",
+    _3x: "3X",
+    _4x: "4X",
+    _6x: "6X",
+    OneSize: "One Size"
+  };
+
   // Calculate the subtotal of the cart
   const calculateSubtotal = () => {
     return cart
@@ -58,10 +72,7 @@ const CartModal = ({ show, onHide }) => {
 
   // Function to make sizes more readable
   const renderSizeDisplay = size => {
-    if (size === "OneSize") {
-      return "One Size"
-    }
-    return size.replace("_", "").toUpperCase() // Format size for display
+    return sizeMap[size] || size.replace("_", "").toUpperCase(); // Map size code to full name or format for display
   }
 
   // Render the quantity field
