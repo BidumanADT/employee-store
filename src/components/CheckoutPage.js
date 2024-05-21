@@ -21,6 +21,25 @@ const CheckoutPage = () => {
 
   const [taxEnabled, setTaxEnabled] = useState(false) // State to manage toggling tax calculation
 
+  // List of sizes for display purposes
+  const sizeMap = {
+    Xs: "Extra Small",
+    Sm: "Small",
+    Md: "Medium",
+    Lg: "Large",
+    Xl: "Extra Large",
+    _2x: "2X",
+    _3x: "3X",
+    _4x: "4X",
+    _6x: "6X",
+    OneSize: "One Size",
+  }
+
+  // Function to select and display size names nicely
+  const getFullSizeName = size => {
+    return sizeMap[size] || size.replace("_", "").toUpperCase()
+  }
+
   // Increment the quantity of an item
   const incrementQuantity = item => {
     if (item.quantity < 999) {
@@ -113,11 +132,7 @@ const CheckoutPage = () => {
                 />
                 {item.name}
               </td>
-              <td className={styles.tableSize}>
-                {item.size === "OneSize"
-                  ? "One Size"
-                  : item.size.replace("_", "").toUpperCase()}
-              </td>
+              <td className={styles.tableSize}>{getFullSizeName(item.size)}</td>
               <td className={styles.tableQuantity}>
                 <Button variant="light" onClick={() => decrementQuantity(item)}>
                   -
