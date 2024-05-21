@@ -10,16 +10,15 @@ const AddToCartModal = ({ product, show, onHide }) => {
 
   // Effect to set the default selected size based on availability
   useEffect(() => {
-    if (product) {
-      const sizes = ["Xs", "Sm", "Md", "Lg", "Xl", "_2x", "_3x", "_4x", "_6x"]
-      const availableSize = sizes.find(size => product[`${size}Inv`] > 0)
-      if (availableSize) {
-        setSelectedSize(availableSize) // Keep the original key format for operations
-      } else if (product.OneSize) {
-        setSelectedSize("OneSize") // Use "OneSize" for one-size products
+    if (show) {
+      setQuantity(1) // Reset quantity every time modal is shown
+      if (product) {
+        const sizes = ["Xs", "Sm", "Md", "Lg", "Xl", "_2x", "_3x", "_4x", "_6x"]
+        const availableSize = sizes.find(size => product[`${size}Inv`] > 0)
+        setSelectedSize(availableSize || (product.OneSize ? "OneSize" : ""))
       }
     }
-  }, [product])
+  }, [product, show]) // Dependency on product and modal visibility
 
   const handleAddToCart = () => {
     const priceKey =
@@ -37,7 +36,7 @@ const AddToCartModal = ({ product, show, onHide }) => {
         price,
         size: selectedSize, // Send the size key directly as stored in product data
         quantity,
-        image: imageUrl
+        image: imageUrl,
       })
       onHide() // Close modal after adding to cart
     } else {
@@ -82,6 +81,7 @@ const AddToCartModal = ({ product, show, onHide }) => {
       </Modal.Header>
       <Modal.Body>
         <Container>
+          {product && <h5>{product.NewName || product.OriginalName}</h5>}
           <Form>
             <Form.Group controlId="productSize">
               <Form.Label>Size</Form.Label>
