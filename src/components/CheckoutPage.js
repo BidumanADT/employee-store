@@ -1,62 +1,96 @@
-import React from "react";
-import { useCart } from "./CartContext"; // Importing useCart to manage cart operations
-import { useAppContext } from "./AppContext"; // Importing useAppContext to manage application-level state
-import { Button, Table, Form, Row, Col, FormGroup, FormLabel, FormControl } from "react-bootstrap"; // Importing components from react-bootstrap
-import * as styles from "./CheckoutPage.module.css"; // Importing CSS module for styling
+import React, { useState } from "react"
+import { useCart } from "./CartContext" // Importing useCart to manage cart operations
+import { useAppContext } from "./AppContext" // Importing useAppContext to manage application-level state
+import {
+  Button,
+  Table,
+  Form,
+  Row,
+  Col,
+  FormGroup,
+  FormLabel,
+  FormControl,
+  ToggleButton,
+  ToggleButtonGroup,
+} from "react-bootstrap" // Importing components from react-bootstrap
+import * as styles from "./CheckoutPage.module.css" // Importing CSS module for styling
 
 const CheckoutPage = () => {
-  const { cart, updateCartItem, removeCartItem } = useCart(); // Destructuring methods from CartContext
-  const { setIsCheckoutVisible } = useAppContext(); // Method to toggle checkout visibility
+  const { cart, updateCartItem, removeCartItem } = useCart() // Destructuring methods from CartContext
+  const { setIsCheckoutVisible } = useAppContext() // Method to toggle checkout visibility
+
+  const [taxEnabled, setTaxEnabled] = useState(false) // State to manage toggling tax calculation
 
   // Increment the quantity of an item
   const incrementQuantity = item => {
     if (item.quantity < 999) {
-      updateCartItem({ ...item, quantity: item.quantity + 1 });
+      updateCartItem({ ...item, quantity: item.quantity + 1 })
     }
-  };
+  }
 
   // Decrement the quantity of an item
   const decrementQuantity = item => {
     if (item.quantity > 1) {
-      updateCartItem({ ...item, quantity: item.quantity - 1 });
+      updateCartItem({ ...item, quantity: item.quantity - 1 })
     }
-  };
+  }
 
   // Remove an item from the cart
   const handleRemoveItem = item => {
-    removeCartItem(item.name, item.size);
-  };
+    removeCartItem(item.name, item.size)
+  }
 
   // Toggle back to the product listing page
   const handleReturnToProducts = () => {
-    setIsCheckoutVisible(false);
-  };
+    setIsCheckoutVisible(false)
+  }
 
-  // Calculate the subtotal, tax, and grand total
-  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const tax = subtotal * 0.10;
-  const grandTotal = subtotal + tax;
+  // Calculate the subtotal
+  const subtotal = cart.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  )
+
+  // Calculate the tax if enabled
+  const tax = taxEnabled ? subtotal * 0.1 : 0
+
+  // Calculate grand total
+  const grandTotal = subtotal + tax
+
+  // Toggle tax calculation
+  const toggleTax = () => {
+    setTaxEnabled(!taxEnabled)
+  }
 
   // Initialize employee data form state
   const [formData, setFormData] = React.useState({
-    firstName: '',
-    lastName: '',
-    employeeNumber: '',
-    employeeEmail: ''
-  });
+    firstName: "",
+    lastName: "",
+    employeeNumber: "",
+    employeeEmail: "",
+  })
 
   // Handle employee data form input changes
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  const handleInputChange = e => {
+    const { name, value } = e.target
     setFormData(prevState => ({
       ...prevState,
-      [name]: value
-    }));
-  };
+      [name]: value,
+    }))
+  }
 
   return (
     <div className={styles.checkoutPage}>
       <h2>Checkout</h2>
+      <ToggleButtonGroup
+        type="checkbox"
+        value={taxEnabled}
+        onChange={toggleTax}
+      >
+        <ToggleButton id="toggle-tax" value={true} variant="outline-primary">
+          {taxEnabled ? "Tax Included" : "Tax Required"}
+        </ToggleButton>
+      </ToggleButtonGroup>
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -79,7 +113,11 @@ const CheckoutPage = () => {
                 />
                 {item.name}
               </td>
-              <td className={styles.tableSize}>{item.size === "OneSize" ? "One Size" : item.size.replace("_", "").toUpperCase()}</td>
+              <td className={styles.tableSize}>
+                {item.size === "OneSize"
+                  ? "One Size"
+                  : item.size.replace("_", "").toUpperCase()}
+              </td>
               <td className={styles.tableQuantity}>
                 <Button variant="light" onClick={() => decrementQuantity(item)}>
                   -
@@ -90,7 +128,9 @@ const CheckoutPage = () => {
                 </Button>
               </td>
               <td className={styles.tablePrice}>${item.price.toFixed(2)}</td>
-              <td className={styles.tableTotal}>${(item.price * item.quantity).toFixed(2)}</td>
+              <td className={styles.tableTotal}>
+                ${(item.price * item.quantity).toFixed(2)}
+              </td>
               <td className={styles.tableRemove}>
                 <Button
                   variant="outline-danger"
@@ -103,17 +143,27 @@ const CheckoutPage = () => {
           ))}
           {/* Display the financial summary */}
           <tr>
-            <td colSpan="4" className={styles.subtotalRight}>Sub-Total</td>
+            <td colSpan="4" className={styles.subtotalRight}>
+              {taxEnabled ? "Sub-Total" : "Total"}
+            </td>
             <td colSpan="2">${subtotal.toFixed(2)}</td>
           </tr>
-          <tr>
-            <td colSpan="4" className={styles.subtotalRight}>Tax (10%)</td>
-            <td colSpan="2">${tax.toFixed(2)}</td>
-          </tr>
-          <tr>
-            <td colSpan="4" className={styles.subtotalRight}>Grand Total</td>
-            <td colSpan="2">${grandTotal.toFixed(2)}</td>
-          </tr>
+          {taxEnabled && (
+            <>
+              <tr>
+                <td colSpan="4" className={styles.subtotalRight}>
+                  Tax (10%)
+                </td>
+                <td colSpan="2">${tax.toFixed(2)}</td>
+              </tr>
+              <tr>
+                <td colSpan="4" className={styles.subtotalRight}>
+                  Grand Total
+                </td>
+                <td colSpan="2">${grandTotal.toFixed(2)}</td>
+              </tr>
+            </>
+          )}
         </tbody>
       </Table>
       {/* Employee Information Form */}
@@ -124,13 +174,23 @@ const CheckoutPage = () => {
             <Col md={6}>
               <FormGroup>
                 <FormLabel>First Name</FormLabel>
-                <FormControl type="text" name="firstName" value={formData.firstName} onChange={handleInputChange} />
+                <FormControl
+                  type="text"
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleInputChange}
+                />
               </FormGroup>
             </Col>
             <Col md={6}>
               <FormGroup>
                 <FormLabel>Last Name</FormLabel>
-                <FormControl type="text" name="lastName" value={formData.lastName} onChange={handleInputChange} />
+                <FormControl
+                  type="text"
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleInputChange}
+                />
               </FormGroup>
             </Col>
           </Row>
@@ -138,13 +198,23 @@ const CheckoutPage = () => {
             <Col md={6}>
               <FormGroup>
                 <FormLabel>Employee Number</FormLabel>
-                <FormControl type="text" name="employeeNumber" value={formData.employeeNumber} onChange={handleInputChange} />
+                <FormControl
+                  type="text"
+                  name="employeeNumber"
+                  value={formData.employeeNumber}
+                  onChange={handleInputChange}
+                />
               </FormGroup>
             </Col>
             <Col md={6}>
               <FormGroup>
                 <FormLabel>Employee Email</FormLabel>
-                <FormControl type="email" name="employeeEmail" value={formData.employeeEmail} onChange={handleInputChange} />
+                <FormControl
+                  type="email"
+                  name="employeeEmail"
+                  value={formData.employeeEmail}
+                  onChange={handleInputChange}
+                />
               </FormGroup>
             </Col>
           </Row>
@@ -154,10 +224,11 @@ const CheckoutPage = () => {
         <Button variant="outline-secondary" onClick={handleReturnToProducts}>
           Back to Products
         </Button>
-        <Button variant="outline-success">Confirm Checkout</Button> {/* Placeholder for checkout functionality */}
+        <Button variant="outline-success">Confirm Checkout</Button>{" "}
+        {/* Placeholder for checkout functionality */}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default CheckoutPage;
+export default CheckoutPage
