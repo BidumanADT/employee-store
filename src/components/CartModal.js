@@ -8,8 +8,8 @@ const CartModal = ({ show, onHide }) => {
   const { cart, clearCart, removeCartItem, updateCartItem } = useCart()
   const [editQuantities, setEditQuantities] = useState({})
   const [inputValues, setInputValues] = useState({})
-  
-  const { showCheckout } = useAppContext();
+
+  const { showCheckout } = useAppContext()
 
   // Calculate the subtotal of the cart
   const calculateSubtotal = () => {
@@ -58,6 +58,9 @@ const CartModal = ({ show, onHide }) => {
 
   // Function to make sizes more readable
   const renderSizeDisplay = size => {
+    if (size === "OneSize") {
+      return "One Size"
+    }
     return size.replace("_", "").toUpperCase() // Format size for display
   }
 
@@ -109,8 +112,8 @@ const CartModal = ({ show, onHide }) => {
 
   // Function to handle toggling of checkout page.
   const handleCheckout = () => {
-    onHide();
-    showCheckout(); 
+    onHide()
+    showCheckout()
   }
 
   return (
