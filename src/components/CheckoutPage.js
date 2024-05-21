@@ -79,7 +79,7 @@ const CheckoutPage = () => {
                 />
                 {item.name}
               </td>
-              <td className={styles.tableSize}>{item.size.replace("_", "").toUpperCase()}</td>
+              <td className={styles.tableSize}>{item.size === "OneSize" ? "One Size" : item.size.replace("_", "").toUpperCase()}</td>
               <td className={styles.tableQuantity}>
                 <Button variant="light" onClick={() => decrementQuantity(item)}>
                   -
